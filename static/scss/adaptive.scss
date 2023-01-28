@@ -1,0 +1,27 @@
+@media screen and (max-width: 992px){
+	.header{
+		ul.menu{
+			display: none !important;
+		}
+
+		.profile{
+			display: none !important;
+		}
+
+		.search{
+			width: 100%;
+			input{
+				width: calc(100% - 54px ) !important;
+			}
+		}
+
+		.search_box{
+			width: 100%;
+		}
+
+		.burger{
+			display: block !important;
+		}
+	}
+	
+}

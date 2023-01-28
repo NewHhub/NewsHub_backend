@@ -1,0 +1,540 @@
+@import "vars.scss";
+@import "mixins.scss";
+
+a{
+	text-decoration: none;
+}
+
+body{
+	margin: 0;
+}
+
+.bg_white{
+	background: $white; 
+}
+
+.fixed{
+	position: fixed;  
+	top: 0;  
+	z-index: 100;  
+	width: 100%; 
+}
+
+.header{
+	height: 56px;
+	border-bottom: $gray-400 solid 1px ;
+
+	.logo{
+		margin-right: 32px;
+		
+		svg{
+			height: 32px;
+			width: 32px;
+			fill: $primary;
+		}
+	}
+
+	.menu{
+		display: flex;
+		padding: 0;
+		margin: 0;
+
+		li{
+			margin-right: 16px;
+			list-style-type: none;
+
+			// у последнего тега "li" меню убираем отступы
+			&:last-child{
+				margin-right: 0;
+			}
+		}
+
+		
+
+		p{
+			@include font;
+
+			margin: 0;
+			color: $secondary;
+			transition: $naw_transition;
+			font-weight: 400;
+
+		}
+
+		a{
+			display: flex;
+			align-items: center;
+			text-decoration: none;
+
+			&:hover svg{
+				fill: $primary;
+			}
+
+			&:hover p{
+				color: $primary;
+			}
+
+			&:visited{
+				color: $secondary;
+			}
+		}
+
+	}
+
+	.naw_icon{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 4px;
+
+		svg{
+			fill: $secondary;
+			transition: $naw_transition;
+		}
+	}
+	
+	.search{
+		position: relative;
+
+		svg{
+			position: absolute;
+			left: 8px;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+
+			fill: $secondary;
+			height: 24px;
+			width: 24px;
+		}
+
+		input{
+			@include font;
+
+			font-size: 16px;
+			color: $dark;
+			width: 168px;
+			border-radius: 20px;
+			padding: 8px;
+			border: $gray-400 solid 1px;
+
+			padding-left: 44px;
+
+
+			&::placeholder{
+				color: $secondary;
+			}
+
+			&:hover{
+				border: lighten($primary, 20%) solid 1px;
+			}
+
+		}
+		
+	}
+
+	.profile{
+		display: flex;
+		align-items: center;
+		margin-left: 24px;
+
+		img{
+			margin-left: 12px;
+			border-radius: 16px;
+			height: 32px;
+			width: 32px;
+		}
+
+		p{
+			@include font;
+
+			font-weight: bold;
+			color: $dark;
+		}
+	}
+
+	.burger{
+		margin-left: 32px;
+		display: none;
+
+		img{
+			height: 32px;
+			width: 32px;
+		}
+	}
+}
+
+footer{
+
+	.rools{
+		@include font;
+		color: $secondary;
+
+		a{
+			text-decoration: none;
+		}
+
+		a:visited{
+			color: $secondary;
+		}
+	}
+}
+
+.contant{
+	min-height: calc(100vh - 56px - 56px);
+	background: $contant_bg;
+	margin-top: 56px;
+
+	.page_title{
+		@include font;
+
+		font-weight: bold;
+		font-size: 32px;
+		color: $black;
+
+		margin-top: 24px;
+		margin-bottom: 24px;
+	}
+}
+
+.block_page{
+	border: $gray-400 solid 1px;
+	border-radius: 8px;
+	padding: 16px;
+	
+	background: $white;
+	width: calc(100% - 32px);
+
+	margin-bottom: 24px;
+
+	&:hover{
+		border: darken($gray-400, 20%) solid 1px;
+	}
+}
+
+.block_page_secondary{
+	border-radius: 8px;
+	padding: 24px;
+	background: $sub_bg;
+	width: calc(100% - 48px);
+	margin-bottom: 16px;
+}
+
+
+.create_post{
+	p{
+		margin: 0;
+	}
+
+	.profile_img{
+		margin-right: 24px;
+	}
+
+	.info{
+		h3{
+			margin-bottom: 8px;
+		}
+	}
+}
+
+.btn{
+	@include font;
+	text-decoration: none;
+
+	p{
+		border-radius: 16px;
+		padding: 8px 16px;
+		margin: 0;
+	}
+
+}
+
+button.btn{
+	border: none;
+	background: none;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.btn-primary{
+	@include colored_btn;
+}
+
+.btn-outline-primary{
+	p{
+		color: $primary;
+		border: $primary solid 1px;
+		padding: calc(8px - 1px) calc(16px - 1px);
+		transition: $naw_transition;
+	}
+
+	&:hover p{
+		background: $primary;
+		color: $white;
+	}
+
+	&:active p{
+		box-shadow: 0px 0px 0px 4px rgba($primary, .4);
+	}
+}
+
+.btn-black{
+	@include colored_btn ($color_bg:$black);
+}
+
+.profile_img{
+	height: 32px;
+	width: 32px;
+	border-radius: 16px;
+}
+
+h3.name{
+	@include font($f_size:16px);
+	font-weight: bold;
+	margin: 0;
+}
+
+p.text{
+	@include font($f_size:16px);
+	margin: 0;
+}
+
+.post{
+	.post_header{
+		margin-bottom: 12px;
+
+		.profile_img{
+			margin-right: 12px;
+		}
+		.name{
+			margin-right: 8px;
+		}
+	}
+
+	.post_title{
+		margin-left: 44px;
+
+		.name{
+			@include font($f_size:20px);
+		}
+	}
+
+	.post_body{
+		margin-left: 44px;
+		margin-top: 12px;
+		width: calc(100% - 44px);
+
+		img{
+			width: 100%;
+			border-radius: 4px;
+		}
+
+		.text{
+			color: $secondary;
+		}
+
+		.post_control{
+			margin-top: 16px;
+
+			.like{
+				button{
+					border: none;
+					background: none;
+					margin: 0;
+					padding: 0;
+					cursor: pointer;
+				}
+
+				a{
+					text-decoration: none;
+				}
+
+				&:hover{
+					.like_img svg{
+						fill: $danger;
+					}
+					p{
+						color: darken($secondary, 20%);
+					}
+				}
+
+				&:active{
+					.like_img svg{
+						fill: darken($danger, 20%);
+					}
+					p{
+						color: darken($secondary, 40%);
+					}
+				}
+
+				.like_img{
+					svg{
+						fill: $secondary;
+						transition: $naw_transition;
+					}
+				}
+
+				// если пост был лайкнутый 
+				.is_like_img{
+					svg{
+						fill: $danger;
+					}
+				}
+				p{
+					@include font;
+					color: $secondary;
+					margin: 0;
+					margin-left: 8px;
+					transition: $naw_transition;
+				}
+			}
+			.comment{
+				margin-left: 24px;
+
+				a{
+					text-decoration: none;
+				}
+
+				&:hover{
+					.comment_img svg{
+						fill: darken($secondary, 20%);
+					}
+					p{
+						color: darken($secondary, 20%);
+					}
+				}
+
+				&:active{
+					.comment_img svg{
+						fill: darken($secondary, 40%);
+					}
+					p{
+						color: darken($secondary, 40%);
+					}
+				}
+
+				.comment_img{
+					svg{
+						fill: $secondary;
+						transition: $naw_transition;
+					}
+				}
+				p{
+					@include font;
+					color: $secondary;
+					margin: 0;
+					margin-left: 8px;
+					transition: $naw_transition;
+				}
+			}
+		}
+	}
+}
+
+.badges{
+	margin-right: 12px;
+	margin-top: 8px;
+
+	a{
+		text-decoration: none;
+
+		p{
+			@include font;
+			background: $sub_bg;
+			color: $primary;
+			margin: 0;
+			padding: 4px 10px;
+			border-radius: 4px;
+		}
+
+		&:hover p{
+			background: darken($sub_bg, 10%);
+		}
+
+		&:active p{
+			box-shadow: 0px 0px 0px 4px rgba($sub_bg, .7);
+		}
+
+		&:visited{
+			color: $primary;
+		}
+	}
+}
+
+.block_page_secondary{
+	.name{
+		@include font($f_size:20px);
+		font-weight: 600;
+		margin-bottom: 12px;
+	}
+
+	.topic_block{
+		margin-top: 16px;
+		margin-bottom: 16px;
+		.topic{
+			margin-bottom: 12px;
+
+			&:last-child{
+				margin-bottom: 0;
+			}
+			.text{
+				@include font($f_size:12px);
+				color: $secondary;
+				margin: 0;
+			}
+			.name{
+				@include font($f_size:16px);
+				color: $black;
+				margin: 4px 0;
+			}
+		}
+	}
+
+	.show{
+		@include font;
+		color: $primary;
+
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+
+	.profile_block{
+		margin-top: 16px;
+
+		.profile{
+			margin-bottom: 12px;
+
+			img{
+				margin-right: 12px;
+			}
+			.text_data{
+				.name{
+					@include font($f_size:16px);
+					margin: 0;
+					margin-bottom: 4px;
+					color: $black;
+				}
+				.text{
+					@include font($f_size:12px);
+					margin: 0;
+					color: $secondary;
+				}
+			}
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+
+.sticky{
+	position: sticky;
+	top: calc(56px + 24px);
+}
+
+.margin-l{
+	margin-left: 16px;
+}
