@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from blog.models import Post, Like, Reviews
+from blog.models import Post, Like, Reviews, Tags
 from django.contrib.auth.models import AnonymousUser
 from blog.forms import LikeForm
 from users.models import User, Followers
@@ -36,8 +36,11 @@ class Posts_list_base(View):
             data.append(post_data)
         return data
     
-    def get(self, request):
-        context = self.get_data()
+    def get(self, request, **kwargs):
+        if 'slug' in kwargs:
+            context = self.get_data(kwargs.get('slug'))
+        else:
+            context = self.get_data()
         return render(request, self.template_name, context)
 
 
@@ -54,9 +57,30 @@ class PostsList(Posts_list_base):
             'posts_list': posts_data,
             'top_users': top_users_by_followers,
             'get_following': self.get_following() if self.request.user!=self.anonimys else None,
+            'page_name': 'Home page'
         }
 
         return context
+
+
+class TagPost(Posts_list_base):
+    template_name = "blog/post_list_tags.html"
+
+    def get_data(self, slug):
+        post_queryset = Post.objects.filter(draft=False, tag__text=slug).order_by("-date")
+        posts_data = self.get_post_data(post_queryset)
+        top_users_by_followers = self.get_top_followers()
+
+        # окнтекст страницы
+        context = {
+            'posts_list': posts_data,
+            'top_users': top_users_by_followers,
+            'get_following': self.get_following() if self.request.user!=self.anonimys else None,
+            'page_name': slug.capitalize()
+        }
+
+        return context
+
 
 class LikePost(View):
     anonimys = AnonymousUser()

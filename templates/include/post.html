@@ -18,7 +18,7 @@
         <div class="topic_group d-flex flex-wrap">
             {% for tag in post.post_data.tag.all %}
                 <div class="badges">
-                    <a href=""><p>{{ tag.text }}</p></a>
+                    <a href="{% url 'tag_post' tag.text %}"><p>{{ tag.text }}</p></a>
                 </div>
             {% endfor %}
         </div>
