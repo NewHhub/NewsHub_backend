@@ -12,7 +12,8 @@
 					{% include "include/create_post_plate.html" %}
 					<!-- end create post -->
 
-					{% if not top_users_if_no_followers %}
+					<!-- выводим посты толь ко если есть посты в запросе -->
+					{% if posts_list %}
 
 						{% for post in posts_list %}
 
@@ -23,27 +24,29 @@
 						{% endfor %}
 					{% else %}
 
-					<div class="add_friend_block">
-                        <h1 class="block_title">You are not subscribed to any account yet</h1>
-                        <p class="block_desc">Maybe, these accounts will be of interest to you.</p>
-                        <div class="profile_block">
-                            {% for profile in top_users_if_no_followers %}
-							<div class="profile d-flex justify-content-between align-items-center">
-								<div class="prifile_data d-flex align-items-center">
-									<img src="img/profile.png" alt="" class="profile_img">
-									<div class="text_data">
-										<a href=""><p class="name">Andrew</p></a>
-										<p class="text">@andrew</p>
+					<!-- выводим список для подписки только если есть тот самый список  -->
+						{% if top_users_if_no_followers %}
+							<div class="add_friend_block">
+								<h1 class="block_title">You are not subscribed to any account yet</h1>
+								<p class="block_desc">Maybe, these accounts will be of interest to you.</p>
+								<div class="profile_block">
+									{% for profile in top_users_if_no_followers %}
+									<div class="profile d-flex justify-content-between align-items-center">
+										<div class="prifile_data d-flex align-items-center">
+											<img src="img/profile.png" alt="" class="profile_img">
+											<div class="text_data">
+												<a href=""><p class="name">{{ profile.username }}</p></a>
+												<p class="text">@andrew</p>
+											</div>
+										</div>
+										<div class="follow_btn">
+											<a href="" class="btn btn-ghost"><p>Follow</p></a>
+										</div>
 									</div>
-								</div>
-								<div class="follow_btn">
-									<a href="" class="btn btn-ghost"><p>Follow</p></a>
+									{% endfor %}
 								</div>
 							</div>
-							{% endfor %}
-						</div>
-                    </div>
-
+						{% endif %}
 						
 
 					{% endif %}

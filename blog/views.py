@@ -48,14 +48,29 @@ class PostsList(Posts_list_base):
     template_name = "blog/post_list.html"
     
     def get_data(self):
-        post_queryset = Post.objects.filter(draft=False).order_by('-date')
+        if self.request.user!=self.anonimys:
+            following_users = [f.follow_by for f in self.request.user.following.all()]
+        else:
+            following_users = None
+        
+
+        # в запросе мы не встретим посты если мы авторизированы и при этом не подписаны не на кого
+        if self.request.user!=self.anonimys and following_users:
+            # если человек авторизирован, то нужно выводить только тех на кого он подписан (себя выводить не стоит)
+            post_queryset = Post.objects.filter(owner__in=following_users, draft=False).order_by('-date')
+        elif self.request.user!=self.anonimys and not following_users:
+            # ненужно делать запрос на посты если мы не на кого не подписаны
+            post_queryset = list()
+        else:
+            # если человек аноним, выводим все посты всех пользователей (кторые активные)
+            post_queryset = Post.objects.filter(draft=False).order_by('-date')
+
         posts_data = self.get_post_data(post_queryset)
         top_users_by_followers = self.get_top_followers()
-        followers = Followers.objects.filter(owner=self.request.user)
 
-        # окнтекст страницы
+        # контекст страницы
         context = {
-            'top_users_if_no_followers': None if followers else self.get_top_followers(count=6),
+            'top_users_if_no_followers': None if following_users else self.get_top_followers(count=6),
             'posts_list': posts_data,
             'top_users': top_users_by_followers,
             'get_following': self.get_following() if self.request.user!=self.anonimys else None,
