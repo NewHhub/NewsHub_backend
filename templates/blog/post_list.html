@@ -11,13 +11,42 @@
 					<!-- create post -->
 					{% include "include/create_post_plate.html" %}
 					<!-- end create post -->
-					{% for post in posts_list %}
 
-					<!-- post text -->
-                    <!-- https://stackoverflow.com/questions/57219323/is-there-a-way-to-use-mixins-in-django-templates-like-in-sass -->
-                    	{% include "include/post.html" with post=post %}
-					<!-- end post text -->
-					{% endfor %}
+					{% if not top_users_if_no_followers %}
+
+						{% for post in posts_list %}
+
+						<!-- post text -->
+						<!-- https://stackoverflow.com/questions/57219323/is-there-a-way-to-use-mixins-in-django-templates-like-in-sass -->
+							{% include "include/post.html" with post=post %}
+						<!-- end post text -->
+						{% endfor %}
+					{% else %}
+
+					<div class="add_friend_block">
+                        <h1 class="block_title">You are not subscribed to any account yet</h1>
+                        <p class="block_desc">Maybe, these accounts will be of interest to you.</p>
+                        <div class="profile_block">
+                            {% for profile in top_users_if_no_followers %}
+							<div class="profile d-flex justify-content-between align-items-center">
+								<div class="prifile_data d-flex align-items-center">
+									<img src="img/profile.png" alt="" class="profile_img">
+									<div class="text_data">
+										<a href=""><p class="name">Andrew</p></a>
+										<p class="text">@andrew</p>
+									</div>
+								</div>
+								<div class="follow_btn">
+									<a href="" class="btn btn-ghost"><p>Follow</p></a>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+                    </div>
+
+						
+
+					{% endif %}
 				</div>
 				<div class="col-lg-4">
 					<div class="sticky">

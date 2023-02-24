@@ -10,8 +10,8 @@ class Posts_list_base(View):
     anonimys = AnonymousUser()
 
     # топ 5 пользователей по кол-ву кодписчиков
-    def get_top_followers(self):
-        return User.objects.annotate(followers_count=Count('followers')).all().order_by('-followers_count')[:5]
+    def get_top_followers(self, count=5):
+        return User.objects.annotate(followers_count=Count('followers')).all().order_by('-followers_count')[:count]
 
     # получить всех подписчиков пользователя
     def get_following(self):
@@ -51,9 +51,11 @@ class PostsList(Posts_list_base):
         post_queryset = Post.objects.filter(draft=False).order_by('-date')
         posts_data = self.get_post_data(post_queryset)
         top_users_by_followers = self.get_top_followers()
+        followers = Followers.objects.filter(owner=self.request.user)
 
         # окнтекст страницы
         context = {
+            'top_users_if_no_followers': None if followers else self.get_top_followers(count=6),
             'posts_list': posts_data,
             'top_users': top_users_by_followers,
             'get_following': self.get_following() if self.request.user!=self.anonimys else None,
