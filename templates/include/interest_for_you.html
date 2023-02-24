@@ -1,0 +1,9 @@
+<div class="add_friend_block">
+    <h1 class="block_title">You are not subscribed to any account yet</h1>
+    <p class="block_desc">Maybe, these accounts will be of interest to you.</p>
+    <div class="profile_block">
+        {% for profile in top_users_if_no_followers %}
+            {% include "include/followers_list.html" with profile=profile %}
+        {% endfor %}
+    </div>
+</div>
