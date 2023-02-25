@@ -1,0 +1,27 @@
+{% load static %}
+
+<div class="profile d-flex justify-content-between align-items-center">
+    <div class="prifile_data d-flex align-items-center">
+        <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+        <div class="text_data">
+            {% if profile.first_name %}
+                <a href=""><p class="name">{{ profile.first_name }}</p></a>
+            {% else %}
+                <a href=""><p class="name">{{ profile.username }}</p></a>
+            {% endif %}
+            <p class="text">@{{ profile.username }}</p>
+        </div>
+    </div>
+
+    <div class="follow_btn">
+        {% if user.is_authenticated %}
+            {% if profile != user %}
+                <form action="{% url 'follow' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile.id }}">
+                    <button type="submit" class="btn btn-ghost"><p>Follow</p></button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
