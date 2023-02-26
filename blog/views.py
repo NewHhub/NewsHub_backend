@@ -80,6 +80,25 @@ class PostsList(Posts_list_base):
         return context
 
 
+class HotList(Posts_list_base):
+    template_name = "blog/hot_list.html"
+
+    def get_data(self):
+        post_queryset = Post.objects.filter(draft=False).order_by('-date')
+
+        posts_data = self.get_post_data(post_queryset)
+        top_users_by_followers = self.get_top_followers()
+
+        # контекст страницы
+        context = {
+            'posts_list': posts_data,
+            'top_users': top_users_by_followers,
+            'get_following': self.get_following() if self.request.user!=self.anonimys else None,
+            'page_name': 'Hot feeds'
+        }
+
+        return context
+
 class TagPost(Posts_list_base):
     template_name = "blog/post_list_tags.html"
 
