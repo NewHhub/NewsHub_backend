@@ -172,6 +172,7 @@ footer{
 
 		a{
 			text-decoration: none;
+			color: $secondary;
 		}
 
 		a:visited{
@@ -185,6 +186,11 @@ footer{
 	background: $contant_bg;
 	margin-top: 56px;
 
+	.page_title_block{
+		margin-top: 24px;
+		margin-bottom: 24px;
+	}
+
 	.page_title{
 		@include font;
 
@@ -192,14 +198,13 @@ footer{
 		font-size: 32px;
 		color: $black;
 
-		margin-top: 24px;
-		margin-bottom: 24px;
-
-		svg{
-			fill: $black;
-			margin-right: 8px;
-			
-		}
+		margin: 0;
+	}
+	.read_time{
+		@include font($f_size:12px);
+		color: $secondary;
+		font-weight: 300;
+		margin: 0;
 	}
 }
 
@@ -581,4 +586,36 @@ p.text{
 
 .margin-l{
 	margin-left: 16px;
+}
+
+
+.anchor{
+	a{
+		color: $black;
+		text-decoration: none;
+
+		margin: 0;
+
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+
+	p{
+		@include font($f_size:16px);
+		font-weight: 600;
+
+		margin: 0;
+		margin-bottom: 16px;
+	}
+}
+
+.term{
+	margin-bottom: 32px;
+
+
+	h3.name{
+		margin-bottom: 16px;
+		font-size: 24px;
+	}
 }

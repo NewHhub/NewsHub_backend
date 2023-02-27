@@ -134,3 +134,14 @@ class LikePost(View):
                 form.user = request.user
                 form.save()
         return redirect('home')
+
+
+class Terms(View):
+    template_name = "blog/terms.html"
+
+    def get(self, request):
+        context = {
+            'page_name': 'Terms of use',
+            'page_subname': '5 minute read'
+        }
+        return render(request, self.template_name, context)
