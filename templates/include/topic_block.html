@@ -2,21 +2,13 @@
 <div class="block_page_secondary">
     <h3 class="name">Trends for you</h3>
     <div class="topic_block">
+        {% for topic in top_tags %}
         <div class="topic">
             <p class="text">Trending</p>
-            <a href=""><h3 class="name">NFTs</h3></a>
-            <p class="text">4 500 feeds</p>
+            <a href="{% url 'tag_post' topic.text %}"><h3 class="name">{{ topic.text|title }}</h3></a>
+            <p class="text">{{ topic.post_count }} feeds</p>
         </div>
-        <div class="topic">
-            <p class="text">Trending in whole world</p>
-            <a href=""><h3 class="name">Jesus</h3></a>
-            <p class="text">4 500 feeds</p>
-        </div>
-        <div class="topic">
-            <p class="text">Politicks / Trending</p>
-            <a href=""><h3 class="name">Ukranians</h3></a>
-            <p class="text">4 500 feeds</p>
-        </div>
+        {% endfor %}
     </div>
     <a href="" class="show">Show more</a>
 </div>

@@ -16,7 +16,7 @@ class Post(models.Model):
     draft = models.BooleanField("Черновик", default=False)
     owner = models.ForeignKey(User, verbose_name="Владелец", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True, verbose_name="дата создания", blank=True)
-    tag = models.ManyToManyField(Tags, verbose_name='теги')
+    tag = models.ManyToManyField(Tags, verbose_name='теги', related_name='tag_post')
     
     def __str__(self):
         return f'{self.title}'
