@@ -21,6 +21,10 @@ class Posts_list_base(View):
             list_follow.append(follower.follow_by)
         return list_follow
 
+    def get_top_topic(self, count):
+        querry = Tags.objects.annotate(post_count=Count('tag_post')).all().order_by('-post_count')[:count]
+        return querry
+
     def get_post_data(self, queryset):
         data = list()
         for post in queryset:
@@ -36,6 +40,15 @@ class Posts_list_base(View):
             data.append(post_data)
         return data
     
+    def get_data(self):
+        # контекст страницы
+        context = {
+            'top_tags': self.get_top_topic(count=3),
+            'top_users': self.get_top_followers(),
+            'get_following': self.get_following() if self.request.user!=self.anonimys else None,
+        }
+        return context
+    
     def get(self, request, **kwargs):
         if 'slug' in kwargs:
             context = self.get_data(kwargs.get('slug'))
@@ -48,6 +61,8 @@ class PostsList(Posts_list_base):
     template_name = "blog/post_list.html"
     
     def get_data(self):
+        context = super().get_data()
+
         if self.request.user!=self.anonimys:
             following_users = [f.follow_by for f in self.request.user.following.all()]
         else:
@@ -65,17 +80,12 @@ class PostsList(Posts_list_base):
             # если человек аноним, выводим все посты всех пользователей (кторые активные)
             post_queryset = Post.objects.filter(draft=False).order_by('-date')
 
-        posts_data = self.get_post_data(post_queryset)
-        top_users_by_followers = self.get_top_followers()
-
         # контекст страницы
-        context = {
+        context.update({
             'top_users_if_no_followers': None if following_users else self.get_top_followers(count=6),
-            'posts_list': posts_data,
-            'top_users': top_users_by_followers,
-            'get_following': self.get_following() if self.request.user!=self.anonimys else None,
+            'posts_list': self.get_post_data(post_queryset),
             'page_name': 'Home page'
-        }
+        })
 
         return context
 
@@ -84,18 +94,16 @@ class HotList(Posts_list_base):
     template_name = "blog/hot_list.html"
 
     def get_data(self):
-        post_queryset = Post.objects.filter(draft=False).order_by('-date')
+        context = super().get_data()
 
+        post_queryset = Post.objects.filter(draft=False).order_by('-date')
         posts_data = self.get_post_data(post_queryset)
-        top_users_by_followers = self.get_top_followers()
 
         # контекст страницы
-        context = {
+        context.update({
             'posts_list': posts_data,
-            'top_users': top_users_by_followers,
-            'get_following': self.get_following() if self.request.user!=self.anonimys else None,
             'page_name': 'Hot feeds'
-        }
+        })
 
         return context
 
@@ -103,17 +111,16 @@ class TagPost(Posts_list_base):
     template_name = "blog/post_list_tags.html"
 
     def get_data(self, slug):
+        context = super().get_data()
+
         post_queryset = Post.objects.filter(draft=False, tag__text=slug).order_by("-date")
         posts_data = self.get_post_data(post_queryset)
-        top_users_by_followers = self.get_top_followers()
 
         # окнтекст страницы
-        context = {
+        context.update({
             'posts_list': posts_data,
-            'top_users': top_users_by_followers,
-            'get_following': self.get_following() if self.request.user!=self.anonimys else None,
             'page_name': slug.capitalize()
-        }
+        })
 
         return context
 
