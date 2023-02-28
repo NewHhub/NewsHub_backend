@@ -21,7 +21,7 @@ class Posts_list_base(View):
             list_follow.append(follower.follow_by)
         return list_follow
 
-    def get_top_topic(self, count):
+    def get_top_tags(self, count):
         querry = Tags.objects.annotate(post_count=Count('tag_post')).all().order_by('-post_count')[:count]
         return querry
 
@@ -43,7 +43,7 @@ class Posts_list_base(View):
     def get_data(self):
         # контекст страницы
         context = {
-            'top_tags': self.get_top_topic(count=3),
+            'top_tags': self.get_top_tags(count=3),
             'top_users': self.get_top_followers(),
             'get_following': self.get_following() if self.request.user!=self.anonimys else None,
         }
