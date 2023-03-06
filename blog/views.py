@@ -91,18 +91,35 @@ class PostsList(Posts_list_base):
 
 
 class HotList(Posts_list_base):
-    template_name = "blog/hot_list.html"
+    template_name = "blog/viewer_list.html"
 
     def get_data(self):
         context = super().get_data()
 
-        post_queryset = Post.objects.annotate(num_likes=Count('post_by_likes')).filter(draft=False).order_by('-num_likes')
+        post_queryset = Post.objects.annotate(num_likes=Count('post_by_likes')).filter(draft=False).order_by('-num_likes', '-date')
         posts_data = self.get_post_data(post_queryset)
 
         # контекст страницы
         context.update({
             'posts_list': posts_data,
             'page_name': 'Hot feeds'
+        })
+
+        return context
+    
+class ExploreList(Posts_list_base):
+    template_name = "blog/viewer_list.html"
+
+    def get_data(self):
+        context = super().get_data()
+
+        post_queryset = Post.objects.filter(draft=False).order_by('-date')
+        posts_data = self.get_post_data(post_queryset)
+
+        # контекст страницы
+        context.update({
+            'posts_list': posts_data,
+            'page_name': 'Explore'
         })
 
         return context
