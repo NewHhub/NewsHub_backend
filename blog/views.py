@@ -96,7 +96,7 @@ class HotList(Posts_list_base):
     def get_data(self):
         context = super().get_data()
 
-        post_queryset = Post.objects.filter(draft=False).order_by('-date')
+        post_queryset = Post.objects.annotate(num_likes=Count('post_by_likes')).filter(draft=False).order_by('-num_likes')
         posts_data = self.get_post_data(post_queryset)
 
         # контекст страницы
