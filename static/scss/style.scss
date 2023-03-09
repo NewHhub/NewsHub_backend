@@ -199,6 +199,10 @@ footer{
 		color: $black;
 
 		margin: 0;
+
+		.normal_text{
+			font-weight: 400;
+		}
 	}
 	.read_time{
 		@include font($f_size:12px);
@@ -618,4 +622,48 @@ p.text{
 		margin-bottom: 16px;
 		font-size: 24px;
 	}
+}
+
+.search_pages{
+	display: flex;
+	justify-content: flex-start;
+
+	margin-bottom: calc(24px + 4px);
+	
+	.page{
+		margin-right: 32px;
+		position: relative;
+		cursor: pointer;
+
+		p{
+			@include font($f_size:20px);
+			margin: 0;
+		}
+
+		.line{
+			position: absolute;
+			bottom: -4px;
+	  
+			opacity: 0;
+		
+			height: 4px;
+			border-radius: 8px;
+	  
+			width: 100%;
+			background: $primary;
+	  
+			transition: $naw_transition;
+		}
+
+		&:hover .line{
+			opacity: 1;
+		  }
+	}
+	.active .line{
+		opacity: 1;
+	}
+}
+
+.contant2, .contant3{
+	margin-bottom: 32px;
 }

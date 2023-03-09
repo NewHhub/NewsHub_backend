@@ -142,6 +142,28 @@ class TagPost(Posts_list_base):
         return context
 
 
+class SearchData(Posts_list_base):
+    template_name = "blog/search.html"
+
+    def get_data(self):
+        context = super().get_data()
+
+        search_data = self.request.GET.get('q')
+
+        post_queryset = Post.objects.filter(draft=False, title__icontains=search_data).order_by("-date")
+        topic_queryset = Tags.objects.annotate(post_count=Count('tag_post')).filter(text__icontains=search_data).order_by('-post_count')
+        profile_queryset = User.objects.annotate(followers_count=Count('followers')).filter(username__icontains=search_data).order_by('-followers_count')
+        posts_data = self.get_post_data(post_queryset)
+
+
+        context.update({
+            'search_post_list': posts_data,
+            'search_topic_list': topic_queryset,
+            'search_profile_list': profile_queryset,
+            'page_name': search_data[:10].capitalize()
+        })
+        return context
+
 class LikePost(View):
     anonimys = AnonymousUser()
 

@@ -1,0 +1,11 @@
+<div class="profile d-flex justify-content-between align-items-center">
+    <div class="prifile_data d-flex align-items-center">
+        <div class="text_data">
+            <a href="{% url 'tag_post' topic.text %}"><p class="name">{{ topic.text|title }}</p></a>
+            <p class="text">{{ topic.post_count }} feeds</p>
+        </div>
+    </div>
+    <div class="follow_btn">
+        <a href="{% url 'tag_post' topic.text %}" class="btn btn-ghost"><p>See posts</p></a>
+    </div>
+</div>
