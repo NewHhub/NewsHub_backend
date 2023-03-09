@@ -1,0 +1,60 @@
+{% extends 'blog/page_layout.html' %}
+
+{% block contant %}
+<div class="contant">
+    <div class="container">
+        {% include "include/search_title.html" %}
+
+        <div class="row">
+            <div class="col-lg-8">
+                {% include "include/search_naw.html" %}
+
+                <!-- посты в первую вкладку -->
+                <div class="contant1" id="data_feeds">
+                    {% if search_post_list %}
+                        {% for post in search_post_list %}
+                            {% include "include/post.html" with post=post %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- топики во вторую вкладку -->
+                <div class="contant2" id="data_topics" style="display: none;">
+                    {% if search_topic_list %}
+                        <div class="profile_block">
+                            {% for topic in search_topic_list %}
+                                {% include "include/search_topic.html" with topic=topic %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="contant3" id="data_users" style="display: none;">
+                    {% if search_profile_list %}
+                        <div class="profile_block">
+                            {% for search_profile in search_profile_list %}
+                                {% include "include/followers_list.html" with profile=search_profile %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sticky">
+                    <!-- топики -->
+                    {% include "include/topic_block.html" %}
+                    <!-- топики -->
+
+                    <!-- на кого подписаться -->
+                    {% include "include/popular-block.html" %}
+                    <!-- на кого подписаться -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

@@ -16,11 +16,13 @@
     <div class="follow_btn">
         {% if user.is_authenticated %}
             {% if profile != user %}
-                <form action="{% url 'follow' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile.id }}">
-                    <button type="submit" class="btn btn-ghost"><p>Follow</p></button>
-                </form>
+                {% if profile not in get_following %}
+                    <form action="{% url 'follow' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile.id }}">
+                        <button type="submit" class="btn btn-ghost"><p>Follow</p></button>
+                    </form>
+                {% endif %}
             {% endif %}
         {% endif %}
     </div>
