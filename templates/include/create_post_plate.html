@@ -5,7 +5,11 @@
     <div class="d-flex align-items-center">
         <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
         <div class="info">
-            <h3 class="name">Andrew, happens something new?</h3>
+            {% if user.first_name %}
+                <h3 class="name">{{ user.first_name|title }}, happens something new?</h3>
+            {% else %}
+                <h3 class="name">{{ user.username|title }}, happens something new?</h3>
+            {% endif %}
             <p class="text">Tell about it to community</p>
         </div>
     </div>
