@@ -9,6 +9,7 @@
             <p>Home page</p>
         </a>
     </li>
+    {% if user.is_authenticated %}
     <li>
         <a href="{% url 'explore' %}">
             <div class="naw_icon">
@@ -19,6 +20,7 @@
             <p>Explore</p>
         </a>
     </li>
+    {% endif %}
     <li>
         <a href="{% url 'hot' %}">
             <div class="naw_icon">
@@ -29,6 +31,7 @@
             <p>Hot feeds</p>
         </a>
     </li>
+    {% if user.is_authenticated %}
     <li>
         <a href="">
             <div class="naw_icon">
@@ -49,4 +52,5 @@
             <p>Profile</p>
         </a>
     </li>
+    {% endif %}
 </ul>

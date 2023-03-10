@@ -8,9 +8,11 @@
 
 			<div class="row">
 				<div class="col-lg-8">
-					<!-- create post -->
-					{% include "include/create_post_plate.html" %}
-					<!-- end create post -->
+					{% if user.is_authenticated %}
+						<!-- create post -->
+						{% include "include/create_post_plate.html" %}
+						<!-- end create post -->
+					{% endif %}
 
 					<!-- выводим посты толь ко если есть посты в запросе -->
 					{% if posts_list %}
