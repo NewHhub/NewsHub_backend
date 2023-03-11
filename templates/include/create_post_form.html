@@ -1,0 +1,27 @@
+<form enctype="multipart/form-data" action="{% url 'add_post' %}" method="post" class="post_create">
+    {% csrf_token %}
+    <div class="combo-box">
+        <div class="input chips-container">
+            <input type="text" class="new-chip-input" placeholder="Add new topik">
+        </div>
+        <select multiple class="selected-chips" name="tag"></select>
+    </div>
+    <input type="text" name='title' placeholder="Title" class="input title" id="post_create_title">
+    <div class="preview">
+        <img id="preview">
+        <div class="reset" id="reset_preview" onclick="reset_preview()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z"/>
+            </svg>
+        </div>
+    </div>
+    <div class="choose_file">
+        <input type="file" name='poster' class="file_input" accept=".png, .jpg, .jpeg" value="Choose" id="poster">
+        <label for="poster" class="file_button btn btn-primary" id="choose_file_button"><p>Choose a file</p></label>
+    </div>
+    
+    <textarea id="textComment" name="text" rows="9" class="input desc" placeholder="Text ( optional )"></textarea>
+    <div class="d-flex justify-content-end form_control">
+        <button type="submit" class="btn btn-primary"><p>Post</p></button>
+    </div>
+</form>

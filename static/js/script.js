@@ -30,3 +30,102 @@ document.getElementById("search_form").addEventListener("keyup", function(event)
         document.getElementById("search_form").submit();  // submit the form
     }
 });
+
+// не отправляем форму при нажатии на enter
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.post_create');
+    const inputs = form.querySelectorAll('input, select');
+  
+    inputs.forEach(function(input) {
+      input.addEventListener('keypress', function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+        }
+      });
+    });
+  });
+
+
+
+const chipsContainer = document.querySelector('.chips-container');
+const selectedChips = document.querySelector('.selected-chips');
+const newChipInput = document.querySelector('.new-chip-input');
+
+
+// Remove chips from selectedChips on click
+selectedChips.addEventListener('click', (event) => {
+  const option = event.target.closest('option');
+  if (option) {
+    const chip = chipsContainer.querySelector(`.chip:not(.selected)[data-value="${option.value}"]`);
+    if (chip) {
+      chip.classList.remove('selected');
+    }
+    selectedChips.removeChild(option);
+  }
+});
+
+// Add new chip to chipsContainer and selectedChips on input enter
+newChipInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && newChipInput.value) {
+    const chip = document.createElement('div');
+    chip.classList.add('chip');
+    chip.dataset.value = newChipInput.value;
+    chip.textContent = newChipInput.value;
+    chip.addEventListener('click', () => {
+      chip.remove();
+      const option = selectedChips.querySelector(`option[value="${chip.dataset.value}"]`);
+      if (option) {
+        option.remove();
+      }
+    });
+    chipsContainer.insertBefore(chip, newChipInput);
+    
+    const option = document.createElement('option');
+    option.value = newChipInput.value;
+    option.selected = true;
+    selectedChips.appendChild(option);
+    
+    newChipInput.value = '';
+  }
+});
+
+// загружаем первый элемент в див с превьюшкой 
+const fileInput = document.querySelector('input[type="file"]#poster')
+const previewImage = document.querySelector('#preview')
+const reset_preview_btn = document.querySelector('#reset_preview')
+const choose_file_button = document.querySelector('#choose_file_button')
+
+fileInput.addEventListener('change', function() {
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener('load', function() {
+    previewImage.src = reader.result;
+    previewImage.style.marginBottom = '16px' // делаем отступ от фото к форме выбора фото
+    reset_preview_btn.style.display = 'flex'
+    choose_file_button.style.display = 'none' // убираем кнопку загрузки фото
+  });
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+});
+
+// при нажатии на кнопку убираем фото
+function reset_preview(){
+    fileInput.value = []
+    reset_preview_btn.style.display = 'none'
+    previewImage.src = ''
+    previewImage.style.marginBottom = '0'
+    choose_file_button.style.display = 'inline-block'
+}
+
+// делаем увеличени текстарии
+var textarea = document.querySelector('#textComment');
+
+textarea.addEventListener('input', function(){
+    setTimeout(function(){
+        textarea.style.cssText = 'height:auto;';
+        textarea.style.cssText = 'height:' + textarea.scrollHeight + 'px';
+      },0);
+});

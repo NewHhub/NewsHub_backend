@@ -1,0 +1,34 @@
+{% extends 'blog/page_layout.html' %}
+
+{% block contant %}
+	<div class="contant">
+		<div class="container">
+			{% include "include/title_with_back.html" %}
+
+
+			<div class="row">
+				<div class="col-lg-8">
+					{% include "include/create_post_form.html" %}
+				</div>
+
+                <!-- пустой столбец -->
+				<div class="col-lg-1"></div>
+				<!-- пустой столбец -->
+
+				<div class="col-lg-3">
+					<div class="sticky">
+						<div class="rools_for_post">
+							<h3>Posting rules</h3>
+                            <p>1. Remember the human</p>
+                            <p>2. Behave like you would in real life</p>
+                            <p>3. Look for the original source of content</p>
+                            <p>4. Search for duplicates before posting</p>
+                            <p>5. Read the community’s rules</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
