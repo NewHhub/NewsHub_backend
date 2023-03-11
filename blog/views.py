@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from blog.models import Post, Like, Reviews, Tags
 from django.contrib.auth.models import AnonymousUser
-from blog.forms import LikeForm
+from blog.forms import LikeForm, PostForm
 from users.models import User, Followers
 from django.db.models import Count
 
@@ -191,3 +191,32 @@ class Terms(View):
             'page_subname': '5 minute read'
         }
         return render(request, self.template_name, context)
+    
+class AddPost(View):
+    template_name = "blog/post_create.html"
+
+    def get(self, request):
+        context = {
+            'page_name': 'Create a post',
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.owner = request.user
+            post.save()
+
+            # Get list of selected tags from select element
+            selected_tags = request.POST.getlist('tag')
+
+            # Create and save Tag objects for each selected value
+            for tag_text in selected_tags:
+                tag, created = Tags.objects.get_or_create(text=tag_text)
+                post.tag.add(tag)
+            print()
+        else:
+            print()
+
+        return redirect('home')
