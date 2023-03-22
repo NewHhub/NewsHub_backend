@@ -311,6 +311,7 @@ button.btn{
 
 h3.name{
 	@include font($f_size:16px);
+	color: $black;
 	font-weight: bold;
 	margin: 0;
 }
@@ -329,6 +330,7 @@ p.text{
 		}
 		.name{
 			margin-right: 8px;
+			color: $black;
 		}
 	}
 
@@ -337,6 +339,7 @@ p.text{
 
 		.name{
 			@include font($f_size:20px);
+			color: $black;
 		}
 	}
 
@@ -411,6 +414,7 @@ p.text{
 			}
 			.comment{
 				margin-left: 24px;
+				cursor: pointer;
 
 				a{
 					text-decoration: none;
@@ -419,9 +423,11 @@ p.text{
 				&:hover{
 					.comment_img svg{
 						fill: darken($secondary, 20%);
+						cursor: pointer;
 					}
 					p{
 						color: darken($secondary, 20%);
+						cursor: pointer;
 					}
 				}
 
@@ -438,6 +444,7 @@ p.text{
 					svg{
 						fill: $secondary;
 						transition: $naw_transition;
+						cursor: pointer;
 					}
 				}
 				p{
@@ -449,6 +456,245 @@ p.text{
 				}
 			}
 		}
+	}
+}
+
+.post_info{
+
+	.post_img{
+		width: 100%;
+		border-radius: 4px;
+		margin-bottom: 16px;
+	}
+
+	.post_text{
+		color: $secondary;
+		margin-bottom: 16px;
+	}
+}
+
+.post_control{
+	.like{
+		button{
+			border: none;
+			background: none;
+			margin: 0;
+			padding: 0;
+			cursor: pointer;
+		}
+
+		a{
+			text-decoration: none;
+		}
+
+		&:hover{
+			.like_img svg{
+				fill: $danger;
+			}
+			p{
+				color: darken($secondary, 20%);
+			}
+		}
+
+		&:active{
+			.like_img svg{
+				fill: darken($danger, 20%);
+			}
+			p{
+				color: darken($secondary, 40%);
+			}
+		}
+
+		.like_img{
+			svg{
+				fill: $secondary;
+				transition: $naw_transition;
+			}
+		}
+
+		// если пост был лайкнутый 
+		.is_like_img{
+			svg{
+				fill: $danger;
+			}
+		}
+		p{
+			@include font;
+			color: $secondary;
+			margin: 0;
+			margin-left: 8px;
+			transition: $naw_transition;
+		}
+	}
+	.comment{
+		margin-left: 24px;
+		cursor: pointer;
+
+		a{
+			text-decoration: none;
+		}
+
+		&:hover{
+			.comment_img svg{
+				fill: darken($secondary, 20%);
+				cursor: pointer;
+
+			}
+			p{
+				color: darken($secondary, 20%);
+				cursor: pointer;
+
+			}
+		}
+
+		&:active{
+			.comment_img svg{
+				fill: darken($secondary, 40%);
+				cursor: pointer;
+
+			}
+			p{
+				color: darken($secondary, 40%);
+				cursor: pointer;
+
+			}
+		}
+
+		.comment_img{
+			svg{
+				fill: $secondary;
+				transition: $naw_transition;
+			}
+		}
+		p{
+			@include font;
+			color: $secondary;
+			margin: 0;
+			margin-left: 8px;
+			transition: $naw_transition;
+		}
+	}
+	.reply{
+		cursor: pointer;
+		margin-left: 24px;
+		cursor: pointer;
+
+
+		a{
+			text-decoration: none;
+		}
+
+		&:hover{
+			.comment_img svg{
+				fill: $primary_hover;
+				cursor: pointer;
+
+			}
+			p{
+				color: $primary_hover;
+				cursor: pointer;
+
+			}
+		}
+
+		&:active{
+			.comment_img svg{
+				fill: $primary_active;
+				cursor: pointer;
+
+			}
+			p{
+				color: $primary_active;
+				cursor: pointer;
+
+			}
+		}
+
+		.comment_img{
+			svg{
+				fill: $secondary;
+				transition: $naw_transition;
+			}
+		}
+		p{
+			@include font;
+			color: $secondary;
+			margin: 0;
+			margin-left: 8px;
+			transition: $naw_transition;
+		}
+	}
+}
+
+
+.post_comment_form{
+	margin-top: 32px;
+	margin-bottom: 48px;
+
+	.desc_label{
+		margin: 0;
+		@include font($f_size: 20px);
+		color: $black;
+		padding-bottom: 24px;
+	}
+
+	.input{
+		@include font;
+
+		font-size: 16px;
+		color: $dark;
+		width: calc(100% - 16px);
+		border-radius: 4px;
+		padding: 8px;
+		border: $gray-400 solid 1px;
+
+
+		&::placeholder{
+			color: $secondary;
+		}
+
+		&:hover{
+			border: lighten($primary, 20%) solid 1px;
+		}
+
+	}
+	.desc{
+		height: 128px;
+		margin-bottom: 16px;
+	}
+}
+
+.comment_list{
+	.comment{
+		@include font;
+
+		.comment_header{
+			margin-bottom: 9px;
+		
+			.profile_img{
+				margin-right: 12px;
+			}
+			.name{
+				color: $black;
+				margin-right: 8px;
+			}
+			.text{
+				margin: 0;
+			}
+		}
+		.comment_body{
+			padding-left: 44px;
+
+			.comment_text{
+				color: $black;
+				margin-bottom: 9px;
+			}
+		}
+	}
+
+	.sub_comment{
+		margin-left: 120px;
+		width: calc(100% - 32px - 120px);
 	}
 }
 
@@ -526,6 +772,7 @@ p.text{
 		@include font($f_size:20px);
 		font-weight: 600;
 		margin-bottom: 12px;
+		color: $black;
 	}
 
 	margin-top: 16px;

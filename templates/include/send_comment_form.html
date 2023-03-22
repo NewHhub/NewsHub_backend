@@ -1,0 +1,12 @@
+<form class="post_comment_form" method="post" id="reply" action="{% url 'add_comment' %}">
+    {% csrf_token %}
+    <h3 class="desc_label">Comment</h3>
+
+    <input type="hidden" name="post" id="post_for_comment" value="{{ post.post_data.id }}">
+    <input type="hidden" name="parent" id="parent" value="">
+    <input type="hidden" name="tread" id="tread" value="">
+    <textarea id="textComment" name="text" rows="3" class="input desc" placeholder="Text"></textarea>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary"><p>Comment</p></button>
+    </div>
+</form>

@@ -129,3 +129,24 @@ textarea.addEventListener('input', function(){
         textarea.style.cssText = 'height:' + textarea.scrollHeight + 'px';
       },0);
 });
+
+function reply(tread_id, parent_id, username){
+  document.getElementById('textComment').value = '@' + username + ', '
+  document.getElementById('parent').value = parent_id
+  document.getElementById('tread').value = tread_id
+
+  // размер шапки + 32px отступа от контрола 
+  let yOffset = 88
+  let element = document.getElementById('reply')
+  let y = element.getBoundingClientRect().top + window.pageYOffset - yOffset
+
+  window.scrollTo({top: y, behavior: 'smooth'})
+}
+
+function go_to_comment(){
+  let yOffset = 88
+  let element = document.getElementById('reply')
+  let y = element.getBoundingClientRect().top + window.pageYOffset - yOffset
+
+  window.scrollTo({top: y, behavior: 'smooth'})
+}
