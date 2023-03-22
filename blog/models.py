@@ -31,9 +31,16 @@ class Like(models.Model):
 class Reviews(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField("Сообщение", max_length=5000)
-    parent = models.ForeignKey('self', verbose_name='Родитель', on_delete=models.CASCADE, blank=True, null=True)
+    parent = models.ForeignKey('self', related_name='parent_reviews', verbose_name='Родитель', on_delete=models.CASCADE, blank=True, null=True)
+    tread = models.ForeignKey('self', related_name='tread_reviews', verbose_name='Тред', on_delete=models.CASCADE, blank=True, null=True)
     post = models.ForeignKey(Post, verbose_name="Пост", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True, verbose_name="дата создания", blank=True)
 
     def __str__(self):
-        return f"{self.owner} - {self.post}"
+        return f"{self.owner} - {self.post} - {self.id}"
+    
+
+class Reviews_like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review_liker')
+    review = models.ForeignKey(Reviews, on_delete=models.CASCADE, related_name='review_for_likes')
+    created = models.DateTimeField(auto_now_add=True)

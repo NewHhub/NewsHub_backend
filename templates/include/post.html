@@ -14,7 +14,7 @@
         <p class="text">{{ post.post_data.date|timesince }}</p>
     </div>
     <div class="post_title">
-        <h3 class="name">{{ post.post_data.title }}</h3>
+        <a href="{% url 'post_detail' pk=post.post_data.id %}"><h3 class="name">{{ post.post_data.title }}</h3></a>
         <div class="topic_group d-flex flex-wrap">
             {% for tag in post.post_data.tag.all %}
                 <div class="badges">
@@ -39,7 +39,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="post" id="post_for_like" value="{{ post.post_data.id }}">
                 <div class="like">
-                    <!-- дизеблим если мы не афторизированы -->
+                    <!-- дизеблим если мы не авторизированы -->
                     <button type="submit" {% if not user.is_authenticated %} disabled {% endif %}>
                         <div class="d-flex align-items-center">
                             {% if user.id in post.user_likes %}
@@ -63,7 +63,7 @@
             <!-- like -->
             <!-- comment -->
             <div class="comment">
-                <a href="">
+                <a href="{% url 'post_detail' pk=post.post_data.id %}">
                     <div class="d-flex align-items-center">
                         <div class="comment_img d-flex justify-content-center align-items-center">
                             <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

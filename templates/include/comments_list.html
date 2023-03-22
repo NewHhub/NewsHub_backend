@@ -1,0 +1,125 @@
+{% load static %}
+
+<div class="comment_list">
+    {% for tread in reviews %}
+        <div class="comment_block">
+            <div class="block_page comment">
+                <div class="comment_header d-flex">
+                    <div class="d-flex align-items-center">
+                        <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                        {% if review.owner.name %}
+                            <a href=""><h3 class="name">{{ tread.review.review_data.owner.name }}</h3></a>
+                        {% else %}
+                            <a href=""><h3 class="name">{{ tread.review.review_data.owner.username }}</h3></a>
+                        {% endif %}
+                        <p class="text">{{ tread.review.review_data.date|timesince }}</p>
+                    </div>
+                </div>
+                <div class="comment_body">
+                    <div class="comment_text">{{ tread.review.review_data.text }}</div>
+                    <div class="post_control d-flex">
+
+                        <form action="{% url 'like_review' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="review" id="post_for_like" value="{{ tread.review.review_data.id }}">
+                            <div class="like">
+                                <!-- дизеблим если мы не авторизированы -->
+                                <button type="submit" {% if not user.is_authenticated %} disabled {% endif %}>
+                                    <div class="d-flex align-items-center">
+                                        {% if user.id in tread.review.user_likes %}
+                                        <div class="like_img is_like_img d-flex justify-content-center align-items-center">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M16.5 2.65C14.76 2.65 13.09 3.46 12 4.73C10.91 3.46 9.24 2.65 7.5 2.65C4.42 2.65 2 5.06 2 8.15C2 11.92 5.4 15.01 10.55 19.68L12 21L13.45 19.68C18.6 15.01 22 11.92 22 8.15C22 5.06 19.58 2.65 16.5 2.65Z"/>
+                                            </svg>
+                                        </div>
+                                        {% else %}
+                                        <div class="like_img d-flex justify-content-center align-items-center">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12.1 18.55L12 18.65L11.89 18.55C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5C9.04 5 10.54 6 11.07 7.36H12.93C13.46 6 14.96 5 16.5 5C18.5 5 20 6.5 20 8.5C20 11.39 16.86 14.24 12.1 18.55ZM16.5 3C14.76 3 13.09 3.81 12 5.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5C2 12.27 5.4 15.36 10.55 20.03L12 21.35L13.45 20.03C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3Z"/>
+                                            </svg>
+                                        </div>
+                                        {% endif %}
+                                        <p>{{ tread.review.likes.count }}</p>
+                                    </div>
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="reply" onclick="reply(tread_id='{{ tread.review.review_data.id }}', comment_id='{{ tread.review.review_data.id }}', username='{{ tread.review.review_data.owner.username }}')">
+                            <div class="d-flex align-items-center">
+                                <div class="comment_img d-flex justify-content-center align-items-center">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 2H4C2.9 2 2 2.9 2 4V16C2 17.1 2.9 18 4 18H18L22 22V4C22 2.9 21.1 2 20 2ZM20 17.2L18.8 16H4V4H20V17.2Z"/>
+                                    </svg>
+                                            
+                                </div>
+                                <p>Reply</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% for sub_reviews in tread.sub_reviews %}
+
+                <div class="block_page comment sub_comment">
+                    <div class="comment_header d-flex">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                            {% if sub_reviews.owner.name %}
+                                <a href=""><h3 class="name">{{ sub_reviews.review_data.owner.name }}</h3></a>
+                            {% else %}
+                                <a href=""><h3 class="name">{{ sub_reviews.review_data.owner.username }}</h3></a>
+                            {% endif %}
+                            <p class="text">{{ sub_reviews.review_data.date|timesince }}</p>
+                        </div>
+                    </div>
+                    <div class="comment_body">
+                        <div class="comment_text">{{ sub_reviews.review_data.text }}</div>
+                        <div class="post_control d-flex">
+                            
+                            <form action="{% url 'like_review' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="review" id="post_for_like" value="{{ sub_reviews.review_data.id }}">
+                                <div class="like">
+                                    <!-- дизеблим если мы не авторизированы -->
+                                    <button type="submit" {% if not user.is_authenticated %} disabled {% endif %}>
+                                        <div class="d-flex align-items-center">
+                                            {% if user.id in sub_reviews.user_likes %}
+                                            <div class="like_img is_like_img d-flex justify-content-center align-items-center">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M16.5 2.65C14.76 2.65 13.09 3.46 12 4.73C10.91 3.46 9.24 2.65 7.5 2.65C4.42 2.65 2 5.06 2 8.15C2 11.92 5.4 15.01 10.55 19.68L12 21L13.45 19.68C18.6 15.01 22 11.92 22 8.15C22 5.06 19.58 2.65 16.5 2.65Z"/>
+                                                </svg>
+                                            </div>
+                                            {% else %}
+                                            <div class="like_img d-flex justify-content-center align-items-center">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12.1 18.55L12 18.65L11.89 18.55C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5C9.04 5 10.54 6 11.07 7.36H12.93C13.46 6 14.96 5 16.5 5C18.5 5 20 6.5 20 8.5C20 11.39 16.86 14.24 12.1 18.55ZM16.5 3C14.76 3 13.09 3.81 12 5.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5C2 12.27 5.4 15.36 10.55 20.03L12 21.35L13.45 20.03C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3Z"/>
+                                                </svg>
+                                            </div>
+                                            {% endif %}
+                                            <p>{{ sub_reviews.likes.count }}</p>
+                                        </div>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="reply" onclick="reply(tread_id='{{ tread.review.review_data.id }}', comment_id='{{ sub_reviews.review_data.id }}', username='{{ sub_reviews.review_data.owner.username }}')">
+                                <div class="d-flex align-items-center">
+                                    <div class="comment_img d-flex justify-content-center align-items-center">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 2H4C2.9 2 2 2.9 2 4V16C2 17.1 2.9 18 4 18H18L22 22V4C22 2.9 21.1 2 20 2ZM20 17.2L18.8 16H4V4H20V17.2Z"/>
+                                        </svg>
+                                                
+                                    </div>
+                                    <p>Reply</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>

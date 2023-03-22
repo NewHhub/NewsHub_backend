@@ -1,0 +1,51 @@
+<div class="post_info">
+    {% if post.post_data.poster %}
+        <img src="{{ post.post_data.poster.url }}" alt="" class="post_img">
+    {% endif %}
+
+    {% if post.post_data.text %}
+        <div class="post_text">
+            <p class="text">{{ post.post_data.text }}</p>
+        </div>
+    {% endif %}
+
+    <div class="post_control d-flex">
+        <!-- like -->
+        <form action="{% url 'like' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="post" id="post_for_like" value="{{ post.post_data.id }}">
+            <div class="like">
+                <!-- дизеблим если мы не афторизированы -->
+                <button type="submit" {% if not user.is_authenticated %} disabled {% endif %}>
+                    <div class="d-flex align-items-center">
+                        {% if user.id in post.user_likes %}
+                        <div class="like_img is_like_img d-flex justify-content-center align-items-center">
+                            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.5 2.65C14.76 2.65 13.09 3.46 12 4.73C10.91 3.46 9.24 2.65 7.5 2.65C4.42 2.65 2 5.06 2 8.15C2 11.92 5.4 15.01 10.55 19.68L12 21L13.45 19.68C18.6 15.01 22 11.92 22 8.15C22 5.06 19.58 2.65 16.5 2.65Z"/>
+                            </svg>
+                        </div>
+                        {% else %}
+                        <div class="like_img d-flex justify-content-center align-items-center">
+                            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.1 18.55L12 18.65L11.89 18.55C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5C9.04 5 10.54 6 11.07 7.36H12.93C13.46 6 14.96 5 16.5 5C18.5 5 20 6.5 20 8.5C20 11.39 16.86 14.24 12.1 18.55ZM16.5 3C14.76 3 13.09 3.81 12 5.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5C2 12.27 5.4 15.36 10.55 20.03L12 21.35L13.45 20.03C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3Z"/>
+                            </svg>
+                        </div>
+                        {% endif %}
+                        <p>{{ post.likes.count }}</p>
+                    </div>
+                </button>
+            </div>
+        </form>
+        <!-- like -->
+        <div class="comment" onclick="go_to_comment()">
+            <div class="d-flex align-items-center">
+                <div class="comment_img d-flex justify-content-center align-items-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 22C8.73478 22 8.48043 21.8946 8.29289 21.7071C8.10536 21.5196 8 21.2652 8 21V18H4C3.46957 18 2.96086 17.7893 2.58579 17.4142C2.21071 17.0391 2 16.5304 2 16V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H20C20.5304 2 21.0391 2.21071 21.4142 2.58579C21.7893 2.96086 22 3.46957 22 4V16C22 16.5304 21.7893 17.0391 21.4142 17.4142C21.0391 17.7893 20.5304 18 20 18H13.9L10.2 21.71C10 21.9 9.75 22 9.5 22H9ZM10 16V19.08L13.08 16H20V4H4V16H10Z"/>
+                    </svg>
+                </div>
+                <p>{{ post.comments.count }}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from blog.models import Post, Like, Reviews, Tags
+from blog.models import Post, Like, Reviews, Tags, Reviews_like
 from django.contrib.auth.models import AnonymousUser
-from blog.forms import LikeForm, PostForm
+from blog.forms import LikeForm, PostForm, CommentForm, LikeReviewForm
 from users.models import User, Followers
 from django.db.models import Count
+from django.http import HttpResponseRedirect
+
 
 class Posts_list_base(View):
     anonimys = AnonymousUser()
@@ -40,6 +42,28 @@ class Posts_list_base(View):
             data.append(post_data)
         return data
     
+    def get_single_review_data(self, review):
+        likes = Reviews_like.objects.filter(review=review)
+        reviews_data = {
+            # модифицируем если надо что-то добавить в инфо про пост
+            'review_data': review,
+            'likes': likes,
+            'user_likes': [i['user'] for i in Reviews_like.objects.values('user').filter(review=review)],
+        }
+        return reviews_data
+    
+    def get_single_post_data(self, post):
+        likes = Like.objects.filter(post=post)
+        comments = Reviews.objects.filter(post=post)
+        post_data = {
+            # модифицируем если надо что-то добавить в инфо про пост
+            'post_data': post,
+            'likes': likes,
+            'comments': comments,
+            'user_likes': [i['user'] for i in Like.objects.values('user').filter(post=post)],
+        }
+        return post_data
+    
     def get_data(self):
         # контекст страницы
         context = {
@@ -52,6 +76,8 @@ class Posts_list_base(View):
     def get(self, request, **kwargs):
         if 'slug' in kwargs:
             context = self.get_data(kwargs.get('slug'))
+        elif 'pk' in kwargs:
+            context = self.get_data(kwargs.get('pk'))
         else:
             context = self.get_data()
         return render(request, self.template_name, context)
@@ -140,6 +166,37 @@ class TagPost(Posts_list_base):
         })
 
         return context
+    
+
+class PostPage(Posts_list_base):
+    template_name = "blog/post_page.html"
+
+    def get_reviews_list(self, pk):
+        reviews = list()
+        treads = Reviews.objects.filter(post__id=pk, parent=None, tread=None)
+        for tread in treads:
+            reviews.append(
+                {
+                    'review': self.get_single_review_data(tread),
+                    'sub_reviews': [self.get_single_review_data(i) for i in Reviews.objects.filter(tread__id=tread.id).order_by("date")],
+                }
+            )
+        return reviews
+
+    def get_data(self, pk):
+        context = super().get_data()
+        post_queryset = Post.objects.get(id=pk)
+        posts_data = self.get_single_post_data(post_queryset)
+
+        # окнтекст страницы
+        context.update({
+            'post': posts_data,
+            'page_name': post_queryset.title.capitalize(),
+            'reviews': self.get_reviews_list(pk),
+        })
+
+        return context
+    
 
 
 class SearchData(Posts_list_base):
@@ -179,7 +236,41 @@ class LikePost(View):
                 form = form.save(commit=False)
                 form.user = request.user
                 form.save()
-        return redirect('home')
+
+         # Получить URL, с которого был выполнен запрос
+        referer_url = request.META.get('HTTP_REFERER')
+
+        # Проверить, что URL внутри домена вашего приложения
+        if referer_url and referer_url.startswith(request.build_absolute_uri('/')[:-1]):
+            return HttpResponseRedirect(referer_url)
+        else:
+            return redirect('home')
+
+
+class LikeReview(View):
+    anonimys = AnonymousUser()
+
+    def post(self, request):
+        form = LikeReviewForm(request.POST)
+        if form.is_valid() and request.user != self.anonimys:
+            review = form.cleaned_data.get('review')
+            likes = Reviews_like.objects.filter(review=review)
+            if request.user in [like.user for like in likes]:
+                obj = Reviews_like.objects.get(review=form.cleaned_data.get('review'), user=request.user)
+                obj.delete()
+            else:
+                form = form.save(commit=False)
+                form.user = request.user
+                form.save()
+
+         # Получить URL, с которого был выполнен запрос
+        referer_url = request.META.get('HTTP_REFERER')
+
+        # Проверить, что URL внутри домена вашего приложения
+        if referer_url and referer_url.startswith(request.build_absolute_uri('/')[:-1]):
+            return HttpResponseRedirect(referer_url)
+        else:
+            return redirect('home')
 
 
 class Terms(View):
@@ -191,7 +282,7 @@ class Terms(View):
             'page_subname': '5 minute read'
         }
         return render(request, self.template_name, context)
-    
+
 class AddPost(View):
     template_name = "blog/post_create.html"
 
@@ -215,8 +306,21 @@ class AddPost(View):
             for tag_text in selected_tags:
                 tag, created = Tags.objects.get_or_create(text=tag_text)
                 post.tag.add(tag)
-            print()
-        else:
-            print()
-
         return redirect('home')
+    
+
+class AddComment(View):
+    def post(self, request):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.owner = request.user
+            review.save()
+
+        referer_url = request.META.get('HTTP_REFERER')
+
+        # Проверить, что URL внутри домена вашего приложения
+        if referer_url and referer_url.startswith(request.build_absolute_uri('/')[:-1]):
+            return HttpResponseRedirect(referer_url)
+        else:
+            return redirect('home')
