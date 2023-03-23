@@ -758,8 +758,10 @@ p.text{
 	}
 
 	.show{
+		margin-bottom: 0;
 		@include font;
 		color: $primary;
+		cursor: pointer;
 
 		&:hover{
 			text-decoration: underline;

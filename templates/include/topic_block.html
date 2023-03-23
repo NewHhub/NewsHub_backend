@@ -3,13 +3,28 @@
     <h3 class="name">Trends for you</h3>
     <div class="topic_block">
         {% for topic in top_tags %}
-        <div class="topic">
-            <p class="text">Trending</p>
+        <div class="topic" id="topic{{ forloop.counter }}">
             <a href="{% url 'tag_post' topic.text %}"><h3 class="name">{{ topic.text|title }}</h3></a>
             <p class="text">{{ topic.post_count }} feeds</p>
         </div>
         {% endfor %}
     </div>
-    <a href="" class="show">Show more</a>
+    <p class="show" onclick="hide_tags()">Show more</p>
 </div>
 <!-- топики -->
+
+<script>
+    let hide = true
+
+    for (let i = 4; i <= 6;  i++){
+        document.getElementById('topic'+i).style.display = 'none'
+    }
+
+    function hide_tags(){
+        hide = !hide
+
+        for (let i = 4; i <= 6;  i++){
+            document.getElementById('topic'+i).style.display = (hide) ? 'none' : 'block'
+        }
+    }
+</script>
