@@ -214,9 +214,9 @@ class SearchData(Posts_list_base):
 
 
         context.update({
-            'search_post_list': posts_data,
-            'search_topic_list': topic_queryset,
-            'search_profile_list': profile_queryset,
+            'search_post_list': posts_data if posts_data else None,
+            'search_topic_list': topic_queryset if topic_queryset else None,
+            'search_profile_list': profile_queryset if profile_queryset else None,
             'page_name': search_data[:10].capitalize()
         })
         return context

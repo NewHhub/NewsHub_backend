@@ -1078,3 +1078,19 @@ p.text{
 		}
 	}
 }
+
+
+.empty{
+	.name{
+		@include font($f_size:24px);
+		font-weight: 600;
+		margin: 0;
+		margin-bottom: 12px;
+	}
+
+	.text{
+		@include font($f_size:14px);
+		margin: 0;
+		color: $secondary;
+	}
+}

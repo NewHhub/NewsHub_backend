@@ -15,6 +15,8 @@
                         {% for post in search_post_list %}
                             {% include "include/post.html" with post=post %}
                         {% endfor %}
+                    {% else %}
+                        {% include "include/no_result_search.html" %}
                     {% endif %}
                 </div>
 
@@ -26,6 +28,8 @@
                                 {% include "include/search_topic.html" with topic=topic %}
                             {% endfor %}
                         </div>
+                    {% else %}
+                        {% include "include/no_result_search.html" %}
                     {% endif %}
                 </div>
 
@@ -36,7 +40,10 @@
                                 {% include "include/followers_list.html" with profile=search_profile %}
                             {% endfor %}
                         </div>
+                    {% else %}
+                        {% include "include/no_result_search.html" %}
                     {% endif %}
+
                 </div>
             </div>
 
