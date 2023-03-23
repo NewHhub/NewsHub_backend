@@ -67,7 +67,7 @@ class Posts_list_base(View):
     def get_data(self):
         # контекст страницы
         context = {
-            'top_tags': self.get_top_tags(count=3),
+            'top_tags': self.get_top_tags(count=6),
             'top_users': self.get_top_followers(),
             'get_following': self.get_following() if self.request.user!=self.anonimys else None,
         }
