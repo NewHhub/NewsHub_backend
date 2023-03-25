@@ -153,16 +153,17 @@ class ExploreList(Posts_list_base):
 class TagPost(Posts_list_base):
     template_name = "blog/post_list_tags.html"
 
-    def get_data(self, slug):
+    def get_data(self, pk):
         context = super().get_data()
 
-        post_queryset = Post.objects.filter(draft=False, tag__text=slug).order_by("-date")
+        post_queryset = Post.objects.filter(draft=False, tag__id=pk).order_by("-date")
+        tag = Tags.objects.get(id=pk)
         posts_data = self.get_post_data(post_queryset)
 
         # окнтекст страницы
         context.update({
             'posts_list': posts_data,
-            'page_name': slug.capitalize()
+            'page_name': tag.text.capitalize()
         })
 
         return context

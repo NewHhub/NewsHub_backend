@@ -4,7 +4,7 @@
     <div class="topic_block">
         {% for topic in top_tags %}
         <div class="topic" id="topic{{ forloop.counter }}">
-            <a href="{% url 'tag_post' topic.text %}"><h3 class="name">{{ topic.text|title }}</h3></a>
+            <a href="{% url 'tag_post' topic.id %}"><h3 class="name">{{ topic.text|title }}</h3></a>
             <p class="text">{{ topic.post_count }} feeds</p>
         </div>
         {% endfor %}

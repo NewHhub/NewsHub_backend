@@ -69,8 +69,8 @@ newChipInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && newChipInput.value) {
     const chip = document.createElement('div');
     chip.classList.add('chip');
-    chip.dataset.value = newChipInput.value;
-    chip.textContent = newChipInput.value;
+    chip.dataset.value = newChipInput.value.replace(/\s/g, '_'); // заменяем пробелы на _
+    chip.textContent = newChipInput.value.replace(/\s/g, '_'); // заменяем пробелы на _
     chip.addEventListener('click', () => {
       chip.remove();
       const option = selectedChips.querySelector(`option[value="${chip.dataset.value}"]`);
@@ -81,7 +81,7 @@ newChipInput.addEventListener('keydown', (event) => {
     chipsContainer.insertBefore(chip, newChipInput);
     
     const option = document.createElement('option');
-    option.value = newChipInput.value;
+    option.value = newChipInput.value.replace(/\s/g, '_'); // заменяем пробелы на _
     option.selected = true;
     selectedChips.appendChild(option);
     

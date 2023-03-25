@@ -24,5 +24,5 @@ urlpatterns = [
     path('add_comment', AddComment.as_view(),name='add_comment'),
     path("search/", SearchData.as_view(), name='search'),
     path('post/<int:pk>/', PostPage.as_view(), name='post_detail'),
-    path("tag/<slug:slug>/", TagPost.as_view(), name='tag_post'),
+    path("tag/<int:pk>/", TagPost.as_view(), name='tag_post'),
 ]
