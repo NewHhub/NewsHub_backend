@@ -33,7 +33,11 @@
 
                             <div class="profile">
                                 <a href="{% url 'logout' %}"><p>{{ user }}</p></a>
-                                <img src="{% static 'img/profile.png' %}" alt="">
+                                {% if user.avatar %}
+                                    <img src="{{ user.avatar.url }}" alt="" class="profile_img">
+                                {% else %}
+                                    <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                                {% endif %}
                             </div>
                         {% else %}
                             <a href="{% url 'login' %}" class="btn btn-outline-primary margin-l"><p>login</p></a> 

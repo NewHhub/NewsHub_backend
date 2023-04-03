@@ -1,0 +1,47 @@
+{% load static %}
+
+<!-- profile header -->
+<div class="row">
+    <div class="col">
+        <div class="profile_block">
+            <div class="profile_head d-flex">
+                <div class="avatar">
+                    {% if profile_user.avatar %}
+                        <img src="{{ profile_user.avatar.url }}" alt="" class="profile_img">
+                    {% else %}
+                        <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                    {% endif %}
+                </div>
+                <div class="profile_info">
+                    {% if profile_user == user %}
+                        <div class="d-flex justify-content-end">
+                            <div class="btn btn-outline-black settings_button">
+                                <a href="">
+                                    <p>Setup image</p>
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div style="height: 65px;"></div>
+                    {% endif %}
+                    <div class="d-flex justify-content-between followers_block">
+                        <div class="d-flex followers_naw">
+                            <a href="" class="following"><b>{{ profile_user.followers.count }}</b> Following</a>
+                            <a href="" class="following"><b>{{ profile_user.following.count }}</b> Followers</a>
+                        </div>
+                        <div class="joined">
+                            <p>{{ profile_user.date_joined }}</p>
+                        </div>
+                    </div>
+                    <div class="bio"><p>{{ profile_user.bio }}</p></div>
+                </div>
+            </div> 
+            {% if profile_user.background %}
+                <div class="profile_bg" style="background-position: center; background-size: cover; background-image: url({{ profile_user.background.url }});"></div>
+            {% else %}
+                <div class="profile_bg"></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- end profile header -->

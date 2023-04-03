@@ -11,6 +11,7 @@ from blog.views import (
     PostPage,
     AddComment,
     LikeReview,
+    Profile,
     )
 
 urlpatterns = [
@@ -23,6 +24,7 @@ urlpatterns = [
     path('create_post/', AddPost.as_view(), name='add_post'),
     path('add_comment', AddComment.as_view(),name='add_comment'),
     path("search/", SearchData.as_view(), name='search'),
+    path('profile/<int:pk>/', Profile.as_view(), name='profile'),
     path('post/<int:pk>/', PostPage.as_view(), name='post_detail'),
     path("tag/<int:pk>/", TagPost.as_view(), name='tag_post'),
 ]

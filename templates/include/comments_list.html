@@ -6,11 +6,15 @@
             <div class="block_page comment">
                 <div class="comment_header d-flex">
                     <div class="d-flex align-items-center">
-                        <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
-                        {% if review.owner.name %}
-                            <a href=""><h3 class="name">{{ tread.review.review_data.owner.name }}</h3></a>
+                        {% if tread.review.review_data.owner.avatar %}
+                            <img src="{{ tread.review.review_data.owner.avatar.url }}" alt="" class="profile_img">
                         {% else %}
-                            <a href=""><h3 class="name">{{ tread.review.review_data.owner.username }}</h3></a>
+                            <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                        {% endif %}
+                        {% if review.owner.name %}
+                            <a href="{% url 'profile' pk=review.owner.id %}"><h3 class="name">{{ tread.review.review_data.owner.name }}</h3></a>
+                        {% else %}
+                            <a href="{% url 'profile' pk=review.owner.id %}"><h3 class="name">{{ tread.review.review_data.owner.username }}</h3></a>
                         {% endif %}
                         <p class="text">{{ tread.review.review_data.date|timesince }}</p>
                     </div>
@@ -65,11 +69,15 @@
                 <div class="block_page comment sub_comment">
                     <div class="comment_header d-flex">
                         <div class="d-flex align-items-center">
-                            <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
-                            {% if sub_reviews.owner.name %}
-                                <a href=""><h3 class="name">{{ sub_reviews.review_data.owner.name }}</h3></a>
+                            {% if sub_reviews.owner.avatar %}
+                                <img src="{{ sub_reviews.owner.avatar.url }}" alt="" class="profile_img">
                             {% else %}
-                                <a href=""><h3 class="name">{{ sub_reviews.review_data.owner.username }}</h3></a>
+                                <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                            {% endif %}
+                            {% if sub_reviews.owner.name %}
+                                <a href="{% url 'profile' pk=sub_reviews.owner.id %}"><h3 class="name">{{ sub_reviews.review_data.owner.name }}</h3></a>
+                            {% else %}
+                                <a href="{% url 'profile' pk=sub_reviews.owner.id %}"><h3 class="name">{{ sub_reviews.review_data.owner.username }}</h3></a>
                             {% endif %}
                             <p class="text">{{ sub_reviews.review_data.date|timesince }}</p>
                         </div>

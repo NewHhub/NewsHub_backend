@@ -3,7 +3,11 @@
 <!-- create post -->
 <div class="block_page create_post d-flex justify-content-between align-items-center">
     <div class="d-flex align-items-center">
-        <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="" class="profile_img">
+        {% else %}
+            <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+        {% endif %}
         <div class="info">
             {% if user.first_name %}
                 <h3 class="name">{{ user.first_name|title }}, happens something new?</h3>

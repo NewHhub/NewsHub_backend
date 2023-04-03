@@ -3,11 +3,16 @@
 <div class="block_page post">
     <div class="post_header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
-            {% if post.post_data.owner.first_name %}
-                <h3 class="name">{{ post.post_data.owner.first_name }}</h3>
+            {% if post.post_data.owner.avatar %}
+                <img src="{{ post.post_data.owner.avatar.url }}" alt="" class="profile_img">
             {% else %}
-                <h3 class="name">{{ post.post_data.owner.username }}</h3>
+                <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+            {% endif %}
+            
+            {% if post.post_data.owner.first_name %}
+                <a href="{% url 'profile' pk=post.post_data.owner.id %}"><h3 class="name">{{ post.post_data.owner.first_name }}</h3></a>
+            {% else %}
+                <a href="{% url 'profile' pk=post.post_data.owner.id %}"><h3 class="name">{{ post.post_data.owner.username }}</h3></a>
             {% endif %}
             <p class="text">@{{ post.post_data.owner.username }} </p>
         </div>

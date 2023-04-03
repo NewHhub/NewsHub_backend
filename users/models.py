@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
     bio = models.TextField(_("bio"), max_length=500, blank=True)
+    avatar = models.ImageField("Аватар", upload_to="profile/avatars/", blank=True, null=True)
+    background = models.ImageField("Бєкграунд", upload_to="profile/backgrounds/", blank=True, null=True)
 
 class Followers(models.Model):
     owner = models.ForeignKey(User, related_name='following', verbose_name="Владелец", on_delete=models.CASCADE)
