@@ -221,6 +221,30 @@ class SearchData(Posts_list_base):
             'page_name': search_data[:10].capitalize()
         })
         return context
+        
+
+class Profile(Posts_list_base):
+    template_name = "blog/profile.html"
+
+    def get_profile_posts(self, user_id):
+        posts = Post.objects.filter(draft=False, owner__id=user_id)
+        return self.get_post_data(posts)
+
+
+    def get_data(self, pk):
+        context = super().get_data()
+
+        profile = User.objects.get(id=pk)
+
+        context.update({
+            'profile_user': profile,
+            'posts_list': self.get_profile_posts(pk),
+            'page_name': profile.first_name if profile.first_name else profile.username,
+            'page_subname': profile.username if profile.first_name else None,
+        })
+
+        return context
+
 
 class LikePost(View):
     anonimys = AnonymousUser()

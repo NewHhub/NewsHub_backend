@@ -299,6 +299,24 @@ button.btn{
 	}
 }
 
+.btn-outline-black{
+	p{
+		color: $black;
+		border: $black solid 1px;
+		padding: calc(8px - 1px) calc(16px - 1px);
+		transition: $naw_transition;
+	}
+
+	&:hover p{
+		background: $black;
+		color: $white;
+	}
+
+	&:active p{
+		box-shadow: 0px 0px 0px 4px rgba($black, .4);
+	}
+}
+
 .btn-black{
 	@include colored_btn ($color_bg:$black);
 }
@@ -1092,5 +1110,86 @@ p.text{
 		@include font($f_size:14px);
 		margin: 0;
 		color: $secondary;
+	}
+}
+
+.profile_block{
+	position: relative;
+
+	.profile_bg{
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+
+		height: 256px;
+		width: 100%;
+		border-radius: 4px;
+		background: $profile_bg;
+	}
+
+	.profile_head{
+		position: relative;
+
+		z-index: 1;
+		padding-top: 192px;
+		width: 100%;
+		margin-bottom: 48px;
+
+		.avatar{
+			margin-left: 4px;
+			img{
+				
+				height: 140px;
+				width: 140px;
+				border-radius: 74px;
+
+				border: 4px solid $white;
+			}
+		}
+
+		.profile_info{
+			width: calc(100% - 148px - 4px);
+
+			.settings_button{
+				margin: 16px;
+			}
+
+			.followers_block{
+				margin-left: 16px;
+				margin-top: 24px;
+				margin-bottom: 16px;
+
+				.followers_naw{
+					.following{
+						margin-right: 24px;
+						color: $black;
+						transition: $naw_transition;
+
+						&:hover{
+							color: $primary;
+						}
+					}
+				}
+
+				.joined{
+					p{
+						margin: 0;
+						@include font($f_size:16px);
+						color: $black;
+					}
+				}
+			}
+			
+			.bio{
+				margin-left: 16px;
+				p{
+					margin: 0;
+					@include font($f_size:16px);
+					color: $black;
+				}
+			}
+		}
+
 	}
 }

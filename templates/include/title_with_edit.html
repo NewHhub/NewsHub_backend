@@ -12,13 +12,23 @@
                         </a>
                         <div>
                             {{ page_name }}
-                            <p class="read_time">{{ page_subname }}</p>
+                            {% if page_subname %}
+                                <p class="read_time">@{{ page_subname }}</p>
+                            {% endif %}
                         </div>
+                        
                     </h1>
+                    
                 </div>
+                {% if profile_user == user %}
+                    <div class="btn btn-outline-black">
+                        <a href="">
+                            <p>edit profile</p>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>	
         <!-- end title -->
     </div>
 </div>
-

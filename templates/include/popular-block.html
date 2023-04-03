@@ -7,12 +7,16 @@
         {% for top_user in top_users %}
         <div class="profile d-flex justify-content-between align-items-center">
             <div class="prifile_data d-flex align-items-center">
-                <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                {% if top_user.avatar %}
+                    <img src="{{ top_user.avatar.url }}" alt="" class="profile_img">
+                {% else %}
+                    <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                {% endif %}
                 <div class="text_data">
                     {% if top_user.first_name %}
-                        <a href=""><p class="name">{{ top_user.first_name }}</p></a>
+                        <a href="{% url 'profile' pk=top_user.id %}"><p class="name">{{ top_user.first_name }}</p></a>
                     {% else %}
-                        <a href=""><p class="name">{{ top_user.username }}</p></a>
+                        <a href="{% url 'profile' pk=top_user.id %}"><p class="name">{{ top_user.username }}</p></a>
                     {% endif %}
                     <p class="text">@{{ top_user.username }}</p>
                 </div>

@@ -1,0 +1,48 @@
+<div class="search_pages">
+    <div class="page active" id="page_feeds" onclick="changePage_profile('page_feeds', 'data_feeds')">
+        <p>Feeds</p>
+        <div class="line"></div>
+    </div>
+    <div class="page" id="page_actions" onclick="changePage_profile('page_actions', 'data_actions')">
+        <p>Actions</p>
+        <div class="line"></div>
+    </div>
+</div>
+<div class="contant1" id="data_feeds">
+    {% if posts_list %}
+		{% for post in posts_list %}
+			{% include "include/post.html" with post=post %}
+		{% endfor %}
+	{% endif %}
+</div>
+<div class="contant2" id="data_actions" style="display: none;">
+    
+</div>
+
+
+<script>
+    function changePage_profile(page, data){
+    let btns_list = ['page_feeds', 'page_actions']
+    let data_list = ['data_feeds', 'data_actions']
+    let curent_page = document.getElementById(page)
+
+    if (!curent_page.classList.contains("active")){
+        curent_page.classList.toggle("active");
+    }
+
+    // remove active class from another btns
+    for(const page_element of btns_list){
+        if(page_element != page){
+            document.getElementById(page_element).classList.remove("active")
+        }
+    }
+
+    // hide another blocks of contant
+    document.getElementById(data).style.display = 'block';
+    for(const data_element of data_list){
+        if(data_element != data){
+            document.getElementById(data_element).style.display = 'none';
+        }
+    }
+    }
+</script>
