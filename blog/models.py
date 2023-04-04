@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from django.utils import timezone
 
 
 class Tags(models.Model):
@@ -44,3 +45,47 @@ class Reviews_like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review_liker')
     review = models.ForeignKey(Reviews, on_delete=models.CASCADE, related_name='review_for_likes')
     created = models.DateTimeField(auto_now_add=True)
+
+
+class Notification(models.Model):
+    owner = models.ForeignKey(User, related_name='notification_owner', verbose_name="Владелец", on_delete=models.CASCADE)
+    text = models.TextField('Текст', max_length=500, blank=True)
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата нотификации", blank=True)
+    is_prived = models.BooleanField("Приватная", default=False)
+    draft = models.BooleanField("Черновик", default=False)
+    is_new = models.BooleanField("Новая", default=True)
+
+    review = models.ForeignKey(Reviews, related_name='review_notification', verbose_name="Ревью", on_delete=models.CASCADE, blank=True, null=True)
+    post = models.ForeignKey(Post, related_name='post_notification', verbose_name="Пост", on_delete=models.CASCADE, blank=True, null=True)
+    initializer = models.ForeignKey(User, related_name='notification_initializer', verbose_name="Инициализатор", on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.owner} - {self.text} - {self.id}"
+    
+
+    def mark_as_read(self):
+        """
+        Пометить уведомление как прочитанное
+        """
+        self.is_new = False
+        self.save()
+
+
+    @classmethod
+    def create_notification(cls, owner, text, is_prived=False, review=None, post=None, initializer=None):
+        """
+        Создать новое уведомление
+        """
+        notification = cls(
+            owner=owner,
+            text=text,
+            is_prived=is_prived,
+            draft=False,
+            is_new=True,
+            date=timezone.now(),
+            review=review,
+            post=post,
+            initializer=initializer
+        )
+        notification.save()
+        return notification

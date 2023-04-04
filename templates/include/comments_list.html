@@ -11,10 +11,10 @@
                         {% else %}
                             <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
                         {% endif %}
-                        {% if review.owner.name %}
-                            <a href="{% url 'profile' pk=review.owner.id %}"><h3 class="name">{{ tread.review.review_data.owner.name }}</h3></a>
+                        {% if review.review_data.owner.name %}
+                            <a href="{% url 'profile' pk=tread.review.review_data.owner.id %}"><h3 class="name">{{ tread.review.review_data.owner.name }}</h3></a>
                         {% else %}
-                            <a href="{% url 'profile' pk=review.owner.id %}"><h3 class="name">{{ tread.review.review_data.owner.username }}</h3></a>
+                            <a href="{% url 'profile' pk=tread.review.review_data.owner.id %}"><h3 class="name">{{ tread.review.review_data.owner.username }}</h3></a>
                         {% endif %}
                         <p class="text">{{ tread.review.review_data.date|timesince }}</p>
                     </div>
@@ -75,9 +75,9 @@
                                 <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
                             {% endif %}
                             {% if sub_reviews.owner.name %}
-                                <a href="{% url 'profile' pk=sub_reviews.owner.id %}"><h3 class="name">{{ sub_reviews.review_data.owner.name }}</h3></a>
+                                <a href="{% url 'profile' pk=sub_reviews.review_data.owner.id %}"><h3 class="name">{{ sub_reviews.review_data.owner.name }}</h3></a>
                             {% else %}
-                                <a href="{% url 'profile' pk=sub_reviews.owner.id %}"><h3 class="name">{{ sub_reviews.review_data.owner.username }}</h3></a>
+                                <a href="{% url 'profile' pk=sub_reviews.review_data.owner.id %}"><h3 class="name">{{ sub_reviews.review_data.owner.username }}</h3></a>
                             {% endif %}
                             <p class="text">{{ sub_reviews.review_data.date|timesince }}</p>
                         </div>
