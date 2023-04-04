@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, Reviews, Tags, Like, Reviews_like
+from blog.models import Post, Reviews, Tags, Like, Reviews_like, Notification
 from django.utils.safestring import mark_safe
 
 @admin.register(Post)
@@ -44,3 +44,8 @@ class ReviewsLikeAdmin(admin.ModelAdmin):
     list_display = ['id', 'review', 'user']
     list_display_links = ['id','review']
     list_search = ['id', 'user']
+
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    pass
