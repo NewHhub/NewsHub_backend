@@ -1193,3 +1193,39 @@ p.text{
 
 	}
 }
+
+.notifications_block{
+	border-radius: 8px;
+	margin-bottom: 32px;
+
+	.block_page{
+		border-radius: 0;
+		margin-bottom: 0;
+	}
+	a:first-child .block_page{
+		border-radius: 8px 8px 0 0;
+	}
+
+	a:last-child .block_page{
+		border-radius: 0 0 8px 8px;
+	}
+
+	.logo_notification{
+		height: 32px;
+		width: 32px;
+		margin-right: 16px;
+	}
+
+	.topick_notification{
+		color: $secondary;
+		@include font($f_size:16px);
+		margin: 0;
+		margin-bottom: 16px;
+	}
+
+	.text_notification{
+		color: $black;
+		@include font($f_size:16px);
+		margin: 0;
+	}
+}
