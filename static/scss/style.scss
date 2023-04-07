@@ -74,6 +74,10 @@ body{
 				color: $primary;
 			}
 
+			&:hover .noticication_icon .noticication_count p{
+				color: $white;
+			}
+
 			&:visited{
 				color: $secondary;
 			}
@@ -90,6 +94,33 @@ body{
 		svg{
 			fill: $secondary;
 			transition: $naw_transition;
+		}
+	}
+
+	.noticication_icon{
+		position: relative;
+
+		.noticication_count{
+			position: absolute;
+
+			min-width: 14px;
+			min-height: 14px;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			top: -8px;
+			left: 14px;
+
+			background-color: $success;
+			border-radius: 10px;
+
+			p{
+				@include font($f_size:8px);
+				margin: 2px 4.5px;
+				color: $white;
+			}
 		}
 	}
 	
@@ -1191,5 +1222,57 @@ p.text{
 			}
 		}
 
+	}
+}
+
+.notifications_block{
+	border-radius: 8px;
+	margin-bottom: 32px;
+
+	.block_page{
+		border-radius: 0;
+		margin-bottom: 0;
+	}
+	a:first-child .block_page{
+		border-radius: 8px 8px 0 0;
+	}
+
+	a:last-child .block_page{
+		border-radius: 0 0 8px 8px;
+	}
+
+	.logo_notification_block{
+		margin-right: 16px;
+		position: relative;
+
+		.new_circle{
+			width: 12px;
+			height: 12px;
+			background-color: $success;
+
+			border-radius: 6px;
+
+			position: absolute;
+			top: -2px;
+			right: -2px;
+		}
+	}
+
+	.logo_notification{
+		height: 32px;
+		width: 32px;
+	}
+
+	.topick_notification{
+		color: $secondary;
+		@include font($f_size:16px);
+		margin: 0;
+		margin-bottom: 16px;
+	}
+
+	.text_notification{
+		color: $black;
+		@include font($f_size:16px);
+		margin: 0;
 	}
 }

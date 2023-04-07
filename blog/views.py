@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from blog.models import Post, Like, Reviews, Tags, Reviews_like
+from blog.models import Post, Like, Reviews, Tags, Reviews_like, Notification
 from django.contrib.auth.models import AnonymousUser
 from blog.forms import LikeForm, PostForm, CommentForm, LikeReviewForm
 from users.models import User, Followers
@@ -64,9 +64,16 @@ class Posts_list_base(View):
         }
         return post_data
     
+    def get_notification_count(self):
+        if self.request.user!=self.anonimys:
+            return Notification.objects.filter(owner=self.request.user, is_new=True, draft=False).count()
+        else:
+            return None
+    
     def get_data(self):
         # контекст страницы
         context = {
+            'notifications_count': self.get_notification_count(),
             'top_tags': self.get_top_tags(count=6),
             'top_users': self.get_top_followers(),
             'get_following': self.get_following() if self.request.user!=self.anonimys else None,
@@ -235,15 +242,50 @@ class Profile(Posts_list_base):
         context = super().get_data()
 
         profile = User.objects.get(id=pk)
+        notifications_list = Notification.objects.filter(owner=self.request.user, is_prived=False, draft=False).order_by('-is_new', '-date')
 
         context.update({
             'profile_user': profile,
             'posts_list': self.get_profile_posts(pk),
+            'notifications_list': notifications_list,
             'page_name': profile.first_name if profile.first_name else profile.username,
             'page_subname': profile.username if profile.first_name else None,
         })
 
         return context
+    
+
+class NotificationsList(Posts_list_base):
+    template_name = "blog/notifications.html"
+
+    def get_data(self):
+        context = super().get_data()
+        notifications_list = Notification.objects.filter(owner=self.request.user, draft=False).order_by('-is_new', '-date')
+
+        context.update({
+            'notifications_list': notifications_list,
+            'page_name': 'Notifications',
+        })
+
+        return context
+
+
+class ReadAllNotifications(View):
+    anonimys = AnonymousUser()
+
+    def post(self, request):
+        notifications = Notification.objects.filter(owner=request.user, is_new=True)
+        for notification in notifications:
+            notification.mark_as_read()
+
+        # Получить URL, с которого был выполнен запрос
+        referer_url = request.META.get('HTTP_REFERER')
+
+        # Проверить, что URL внутри домена вашего приложения
+        if referer_url and referer_url.startswith(request.build_absolute_uri('/')[:-1]):
+            return HttpResponseRedirect(referer_url)
+        else:
+            return redirect('home')
 
 
 class LikePost(View):

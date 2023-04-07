@@ -19,6 +19,7 @@ def create_notification_by_like_post(sender, instance, created, **kwargs):
             date=timezone.now(),
             post=instance.post,
             initializer=instance.user,
+            notification_type='lp',
         )
 
 
@@ -36,6 +37,7 @@ def create_notification_by_review_like(sender, instance, created, **kwargs):
             post=instance.post,
             initializer=instance.owner,
             review = instance,
+            notification_type='rc',
         )
 
         # действие для создателя комента
@@ -49,6 +51,7 @@ def create_notification_by_review_like(sender, instance, created, **kwargs):
             post=instance.post,
             initializer=instance.owner,
             review = instance,
+            notification_type='rc',
         )
 
 
@@ -68,4 +71,5 @@ def create_notification_by_review_like(sender, instance, created, **kwargs):
             post=instance.review.post,
             initializer=instance.user,
             review = instance.review,
+            notification_type='rl',
         )

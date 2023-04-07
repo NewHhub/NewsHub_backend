@@ -1,0 +1,28 @@
+{% extends 'blog/page_layout.html' %}
+
+{% block contant %}
+	<div class="contant">
+		<div class="container">
+			{% include "include/title_with_read.html" %}
+
+
+			<div class="row">
+				<div class="col-lg-8">
+                    {% include "include/notifications_container.html" %}
+				</div>
+				<div class="col-lg-4">
+					<div class="sticky">
+						<!-- топики -->
+						{% include "include/topic_block.html" %}
+						<!-- топики -->
+
+						<!-- на кого подписаться -->
+						{% include "include/popular-block.html" %}
+						<!-- на кого подписаться -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
