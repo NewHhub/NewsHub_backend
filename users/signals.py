@@ -17,6 +17,8 @@ def create_notification_by_like_post(sender, instance, created, **kwargs):
             is_prived=False,
             date=timezone.now(),
             initializer=instance.follow_by,
+            notification_type='f',
+
         )
 
 
@@ -28,4 +30,6 @@ def create_notification_by_like_post(sender, instance, created, **kwargs):
             is_prived=False,
             date=timezone.now(),
             initializer=instance.owner,
+            notification_type='f',
+
         )

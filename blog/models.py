@@ -48,12 +48,21 @@ class Reviews_like(models.Model):
 
 
 class Notification(models.Model):
+    NOTIFICATION_TYPE_CHOICES = [
+        ('lp', 'Post Like'),
+        ('f', 'Following'),
+        ('rc', 'Review Creation'),
+        ('rl', 'Review Like'),
+        ('no', 'None')
+    ]
+
     owner = models.ForeignKey(User, related_name='notification_owner', verbose_name="Владелец", on_delete=models.CASCADE)
     text = models.TextField('Текст', max_length=500, blank=True)
     date = models.DateTimeField(auto_now_add=True, verbose_name="Дата нотификации", blank=True)
     is_prived = models.BooleanField("Приватная", default=False)
     draft = models.BooleanField("Черновик", default=False)
     is_new = models.BooleanField("Новая", default=True)
+    notification_type = models.CharField(max_length=2, choices=NOTIFICATION_TYPE_CHOICES, default='lp',)
 
     review = models.ForeignKey(Reviews, related_name='review_notification', verbose_name="Ревью", on_delete=models.CASCADE, blank=True, null=True)
     post = models.ForeignKey(Post, related_name='post_notification', verbose_name="Пост", on_delete=models.CASCADE, blank=True, null=True)
@@ -71,8 +80,12 @@ class Notification(models.Model):
         self.save()
 
 
+    def display_notification_type(self):
+        return dict(Notification.NOTIFICATION_TYPE_CHOICES)[self.notification_type]
+
+
     @classmethod
-    def create_notification(cls, owner, text, is_prived=False, review=None, post=None, initializer=None):
+    def create_notification(cls, owner, text, is_prived=False, review=None, post=None, initializer=None, notification_type='no'):
         """
         Создать новое уведомление
         """
@@ -85,7 +98,8 @@ class Notification(models.Model):
             date=timezone.now(),
             review=review,
             post=post,
-            initializer=initializer
+            initializer=initializer,
+            notification_type=notification_type
         )
         notification.save()
         return notification

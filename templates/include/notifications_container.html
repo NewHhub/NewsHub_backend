@@ -9,10 +9,17 @@
             <a href="{% url 'profile' pk=notification.initializer.id %}">
         {% endif %}
                 <div class="block_page notification d-flex">
-                    <img src="{% static 'img/profile.png' %}" alt="" class="logo_notification">
+                    <div class="logo_notification_block">
+                        <img src="{% static 'img/profile.png' %}" alt="" class="logo_notification">
+
+                        {% if notification.is_new %}
+                            <div class="new_circle"></div>
+                        {% endif %}
+                    </div>
+                    
                     <div class="body_notification" style="width:100%">
                         <div class="d-flex justify-content-between">
-                            <p class="topick_notification">In case you missed the feed</p>
+                            <p class="topick_notification">{{ notification.display_notification_type }}</p>
                             <p class="topick_notification"> {{ notification.date|timesince }}</p>
                         </div>
                         <p class="text_notification">{{ notification.text }}</p>
