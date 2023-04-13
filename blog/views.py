@@ -242,7 +242,7 @@ class Profile(Posts_list_base):
         context = super().get_data()
 
         profile = User.objects.get(id=pk)
-        notifications_list = Notification.objects.filter(owner=self.request.user, is_prived=False, draft=False).order_by('-is_new', '-date')
+        notifications_list = Notification.objects.filter(owner__id=pk, is_prived=False, draft=False).order_by('-is_new', '-date')
 
         context.update({
             'profile_user': profile,

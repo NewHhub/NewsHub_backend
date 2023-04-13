@@ -1,0 +1,79 @@
+{% load static %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="block_page settings_popup">
+                <div class="popup_header d-flex justify-content-between align-items-center">
+                    <h1>Edit profile</h1>
+                    <button title="Close (Esc)" type="button" class="mfp-close close_button">×</button>
+                </div>
+                <form action="{% url 'profile_settings' %}" method="POST" enctype="multipart/form-data" id="popup-form">
+                    {% csrf_token %}
+                    <div class="profile_block">
+                        <div class="profile_head d-flex header_margin">
+                            <div class="avatar">
+                                <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
+                            </div>
+                        </div> 
+                        
+                        <div class="profile_bg"></div>
+                    </div>
+
+                    <div class="settings_field">
+                        <h2>Name</h2>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <ul>
+                            {% for error in form.first_name.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    
+                    <div class="settings_field">
+                        <h2>Bio</h2>
+                        <textarea id="textComment" name="bio" rows="3" placeholder="Text ( optional )">{{ form.bio.value }}</textarea>
+                        {% if form.bio.errors %}
+                            <ul>
+                            {% for error in form.bio.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <label for="{{ form.avatar.id_for_label }}">Avatar:</label>
+                    {{ form.avatar }}
+                    {% if form.avatar.errors %}
+                        <ul>
+                        {% for error in form.avatar.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <label for="{{ form.background.id_for_label }}">Background:</label>
+                    {{ form.background }}
+                    {% if form.background.errors %}
+                        <ul>
+                        {% for error in form.background.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    
+                    <div class="settings_control d-flex justify-content-end align-items-center">
+                        <button type="submit" class="btn btn-primary"><p>Save changes</p></button>
+                    </div>
+                    
+                </form>
+                    
+            </div>
+        </div>
+    </div>
+</div>
+    

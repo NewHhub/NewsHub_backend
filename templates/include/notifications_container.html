@@ -12,7 +12,7 @@
                     <div class="logo_notification_block">
                         <img src="{% static 'img/profile.png' %}" alt="" class="logo_notification">
 
-                        {% if notification.is_new %}
+                        {% if notification.is_new and notification.owner == user %}
                             <div class="new_circle"></div>
                         {% endif %}
                     </div>

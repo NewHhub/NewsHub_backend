@@ -4,6 +4,8 @@ from django.views import View
 from django.shortcuts import render, redirect
 from users.models import Followers
 from django.http import HttpResponseRedirect
+from .forms import ProfileSettingsForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -63,3 +65,23 @@ class Unfollow(View):
             return HttpResponseRedirect(referer_url)
         else:
             return redirect('home')
+        
+
+
+@login_required
+def profile_settings(request):
+    if request.method == 'POST':
+        form = ProfileSettingsForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            
+            referer_url = request.META.get('HTTP_REFERER')
+
+            # Проверить, что URL внутри домена вашего приложения
+            if referer_url and referer_url.startswith(request.build_absolute_uri('/')[:-1]):
+                return HttpResponseRedirect(referer_url)
+            else:
+                return redirect('home')
+    else:
+        form = ProfileSettingsForm(instance=request.user)
+    return render(request, 'profile/settings.html', {'form': form})
