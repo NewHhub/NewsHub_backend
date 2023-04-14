@@ -274,6 +274,7 @@ footer{
 
 	.profile_img{
 		margin-right: 24px;
+		object-fit: cover;
 	}
 
 	.info{
@@ -356,6 +357,7 @@ button.btn{
 	height: 32px;
 	width: 32px;
 	border-radius: 16px;
+	object-fit: cover;
 }
 
 h3.name{
@@ -376,6 +378,7 @@ p.text{
 
 		.profile_img{
 			margin-right: 12px;
+			object-fit: cover;
 		}
 		.name{
 			margin-right: 8px;
@@ -722,6 +725,7 @@ p.text{
 		
 			.profile_img{
 				margin-right: 12px;
+				object-fit: cover;
 			}
 			.name{
 				color: $black;
@@ -1176,6 +1180,8 @@ p.text{
 				border-radius: 74px;
 
 				border: 4px solid $white;
+
+				object-fit: cover;
 			}
 		}
 
@@ -1274,5 +1280,110 @@ p.text{
 		color: $black;
 		@include font($f_size:16px);
 		margin: 0;
+	}
+}
+
+.settings_popup{
+	margin: 0;
+
+	.popup_header{
+		h1{
+			color: $black;
+			@include font($f_size:20px);
+			margin: 0;
+		}
+	
+		.close_button{
+			position: static;
+		}
+	}
+
+	.header_margin{
+		margin-bottom: 24px;
+	}
+
+	.settings_field{
+		width: 100%;
+		margin-bottom: 24px;
+
+		h2{
+			color: $black;
+			@include font($f_size:14px);
+			margin: 0;
+			margin-bottom: 8px;
+		}
+		input{
+			width: calc(100% - 16px);
+			
+			@include font($f_size:16px);
+			color: $dark;
+			padding: 8px;
+			border-radius: 4px;
+
+			border: $gray-400 solid 1px;
+
+
+			&::placeholder{
+				color: $secondary;
+			}
+
+			&:hover{
+				border: lighten($primary, 20%) solid 1px;
+			}
+		}
+
+		textarea{
+
+			width: calc(100% - 16px);
+			
+			@include font($f_size:16px);
+			color: $dark;
+			padding: 8px;
+			border-radius: 4px;
+
+			border: $gray-400 solid 1px;
+			resize: none;
+
+			&::placeholder{
+				color: $secondary;
+			}
+
+			&:hover{
+				border: lighten($primary, 20%) solid 1px;
+			}
+		}
+	}
+
+	.avatar{
+		position: relative;
+
+		.choose_icon_block{
+			position: absolute;
+			top: 0;
+			left: 0;
+
+			width: 100%;
+			height: 100%;
+
+			cursor: pointer;
+		}
+		img{
+			object-fit: cover;
+			transition: $naw_transition;
+		}
+
+		&:hover img{
+			filter: blur(4px);
+		}
+	}
+
+	.profile_bg{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		&:hover{
+			filter: blur(8px);
+		}
 	}
 }

@@ -22,7 +22,7 @@
                 </div>
                 {% if profile_user == user %}
                     <div class="btn btn-outline-black">
-                        <a href="">
+                        <a href="{% url 'profile_settings' %}" class="popup-link">
                             <p>edit profile</p>
                         </a>
                     </div>
@@ -32,3 +32,26 @@
         <!-- end title -->
     </div>
 </div>
+
+
+<script>
+$(document).ready(function() {
+	$('.popup-link').magnificPopup({
+		type: 'ajax',
+		preloader: false,
+		focus: '#name',
+
+		// When elemened is focused, some mobile browsers in some cases zoom in
+		// It looks not nice, so we disable it:
+		callbacks: {
+			beforeOpen: function() {
+				if($(window).width() < 700) {
+					this.st.focus = false;
+				} else {
+					this.st.focus = '#name';
+				}
+			}
+		}
+	});
+});
+</script>
