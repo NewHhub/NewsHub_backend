@@ -1409,3 +1409,52 @@ p.text{
 		}
 	}
 }
+
+.following{
+
+	.following_title{
+		@include font($f_size:20px);
+		margin-bottom: 16px;
+	}
+
+	.search{
+		position: relative;
+		margin-bottom: 24px;
+
+		svg{
+			position: absolute;
+			left: 8px;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+
+			fill: $secondary;
+			height: 24px;
+			width: 24px;
+		}
+
+		input{
+			@include font;
+			font-size: 16px;
+			color: $dark;
+			max-width: 400px;
+			width: calc(100% - 16px);
+			border-radius: 20px;
+			padding: 8px;
+			border: $gray-400 solid 1px;
+
+			padding-left: 44px;
+
+
+			&::placeholder{
+				color: $secondary;
+			}
+
+			&:hover{
+				border: lighten($primary, 20%) solid 1px;
+			}
+
+		}
+		
+	}
+}

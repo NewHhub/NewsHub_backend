@@ -228,9 +228,23 @@ class SearchData(Posts_list_base):
             'page_name': search_data[:10].capitalize()
         })
         return context
-        
 
-class Profile(Posts_list_base):
+
+class Profile_base(Posts_list_base):
+    
+    def get_data(self, pk):
+        context = super().get_data()
+        profile = User.objects.get(id=pk)
+
+        context.update({
+            'profile_user': profile,
+            'page_name': profile.first_name if profile.first_name else profile.username,
+            'page_subname': profile.username if profile.first_name else None,
+        })
+
+        return context
+
+class Profile(Profile_base):
     template_name = "blog/profile.html"
 
     def get_profile_posts(self, user_id):
@@ -239,21 +253,52 @@ class Profile(Posts_list_base):
 
 
     def get_data(self, pk):
-        context = super().get_data()
+        context = super().get_data(pk)
 
-        profile = User.objects.get(id=pk)
         notifications_list = Notification.objects.filter(owner__id=pk, is_prived=False, draft=False).order_by('-is_new', '-date')
 
         context.update({
-            'profile_user': profile,
             'posts_list': self.get_profile_posts(pk),
             'notifications_list': notifications_list,
-            'page_name': profile.first_name if profile.first_name else profile.username,
-            'page_subname': profile.username if profile.first_name else None,
         })
 
         return context
     
+class Profile_followers(Profile_base):
+    template_name = "blog/profile_followers.html"
+
+    def get_followers_list(self, user_id):
+        return User.objects.filter(id__in=Followers.objects.filter(follow_by__id=user_id).values_list('owner_id', flat=True))
+
+    def get_data(self, pk):
+        context = super().get_data(pk)
+
+        context.update({
+            'followers': self.get_followers_list(pk)
+        })
+        
+        print()
+
+        return context
+
+class Profile_following(Profile_base):
+    template_name = "blog/profile_followers.html"
+
+    def get_following_list(self, user_id):
+        return User.objects.filter(id__in=Followers.objects.filter(owner__id=user_id).values_list('follow_by_id', flat=True))
+
+
+    def get_data(self, pk):
+        context = super().get_data(pk)
+
+        context.update({
+            'following': self.get_following_list(pk)
+        })
+
+        print()
+
+        return context
+
 
 class NotificationsList(Posts_list_base):
     template_name = "blog/notifications.html"

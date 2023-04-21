@@ -26,8 +26,8 @@
                     {% endif %}
                     <div class="d-flex justify-content-between followers_block">
                         <div class="d-flex followers_naw">
-                            <a href="" class="following"><b>{{ profile_user.followers.count }}</b> Following</a>
-                            <a href="" class="following"><b>{{ profile_user.following.count }}</b> Followers</a>
+                            <a href="{% url 'following_page' pk=profile_user.id %}" class="following"><b>{{ profile_user.following.count }}</b> Following</a>
+                            <a href="{% url 'followers_page' pk=profile_user.id %}" class="following"><b>{{ profile_user.followers.count }}</b> Followers</a>
                         </div>
                         <div class="joined">
                             <p>{{ profile_user.date_joined }}</p>

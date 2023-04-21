@@ -1,33 +1,41 @@
 {% load static %}
 
-<div class="profile d-flex justify-content-between align-items-center">
-    <div class="prifile_data d-flex align-items-center">
-        {% if profile.avatar %}
-            <img src="{{ profile.avatar.url }}" alt="" class="profile_img">
-        {% else %}
-            <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
-        {% endif %}
-        <div class="text_data">
-            {% if profile.first_name %}
-                <a href="{% url 'profile' pk=profile.id %}"><p class="name">{{ profile.first_name }}</p></a>
+<div class="profile">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="prifile_data d-flex align-items-center">
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="" class="profile_img">
             {% else %}
-                <a href="{% url 'profile' pk=profile.id %}"><p class="name">{{ profile.username }}</p></a>
+                <img src="{% static 'img/profile.png' %}" alt="" class="profile_img">
             {% endif %}
-            <p class="text">@{{ profile.username }}</p>
+            <div class="text_data">
+                {% if profile.first_name %}
+                    <a href="{% url 'profile' pk=profile.id %}"><p class="name">{{ profile.first_name }}</p></a>
+                {% else %}
+                    <a href="{% url 'profile' pk=profile.id %}"><p class="name">{{ profile.username }}</p></a>
+                {% endif %}
+                <p class="text">@{{ profile.username }}</p>
+            </div>
         </div>
-    </div>
 
-    <div class="follow_btn">
-        {% if user.is_authenticated %}
-            {% if profile != user %}
-                {% if profile not in get_following %}
-                    <form action="{% url 'follow' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile.id }}">
-                        <button type="submit" class="btn btn-ghost"><p>Follow</p></button>
-                    </form>
+        <div class="follow_btn">
+            {% if user.is_authenticated %}
+                {% if profile != user %}
+                    {% if profile not in get_following %}
+                        <form action="{% url 'follow' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile.id }}">
+                            <button type="submit" class="btn btn-ghost"><p>Follow</p></button>
+                        </form>
+                    {% else %}
+                        <form action="{% url 'unfollow' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile.id }}">
+                            <button type="submit" class="btn btn-black"><p>Unfollow</p></button>
+                        </form>
+                    {% endif %}
                 {% endif %}
             {% endif %}
-        {% endif %}
+        </div>
     </div>
 </div>
