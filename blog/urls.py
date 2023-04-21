@@ -14,6 +14,8 @@ from blog.views import (
     Profile,
     NotificationsList,
     ReadAllNotifications,
+    Profile_followers,
+    Profile_following
     )
 
 urlpatterns = [
@@ -29,6 +31,8 @@ urlpatterns = [
     path('add_comment', AddComment.as_view(),name='add_comment'),
     path("search/", SearchData.as_view(), name='search'),
     path('profile/<int:pk>/', Profile.as_view(), name='profile'),
+    path('profile_following/<int:pk>/', Profile_following.as_view(), name='following_page'),
+    path('profile_followers/<int:pk>/', Profile_followers.as_view(), name='followers_page'),
     path('post/<int:pk>/', PostPage.as_view(), name='post_detail'),
     path("tag/<int:pk>/", TagPost.as_view(), name='tag_post'),
 ]
