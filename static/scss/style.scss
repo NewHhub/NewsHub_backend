@@ -168,6 +168,7 @@ body{
 		display: flex;
 		align-items: center;
 		margin-left: 24px;
+		position: relative;
 
 		img{
 			margin-left: 12px;
@@ -182,6 +183,89 @@ body{
 			font-weight: bold;
 			color: $dark;
 		}
+
+		.profile_dropdown{
+			background: rgba($white, 0.9);
+			border: $gray-400 solid 1px;
+			border-radius: 8px;
+
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			z-index: -999;
+			opacity: 0;
+
+			transition: all 0.2s ease-in-out;
+
+
+			width: 180px;
+			height: auto;
+
+			a.profile_dropdown_btn{
+				margin: 8px;
+				text-decoration: none;
+				transition: $naw_transition;
+				color: $secondary;
+
+				display: flex;
+				align-items: center;
+
+				&:hover{
+					color: $primary;
+
+					svg{
+						fill: $primary;
+					}
+
+					svg.danger{
+						fill: $danger;
+					}
+
+				}
+
+
+				p.item{
+					@include font;
+	
+					margin: 8px;
+					color: $secondary;
+					transition: $naw_transition;
+					font-weight: 400;
+	
+					&:hover{
+						color: $primary;
+					}
+				}
+
+				svg{
+					fill: $secondary;
+					transition: $naw_transition;
+				}
+
+				svg.danger{
+					fill: $danger;
+					transition: $naw_transition;
+				}
+	
+				p.danger{
+					color: $danger;
+				}
+
+				
+			}
+
+			hr{
+				color: $secondary;
+				border-color: $secondary;
+			}
+
+			
+		}
+
+		.profile_dropdown.active{
+			bottom: -150px;
+			opacity: 1;
+		  }
 	}
 
 	.burger{
