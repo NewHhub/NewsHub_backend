@@ -48,12 +48,9 @@
                         {% endif %}
 
                         <div class="burger">
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M26.6673 9.33333H5.33398" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
-                                <path opacity="0.5" d="M26.6673 16H5.33398" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M26.6673 22.6667H5.33398" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
-                                
+                            <span></span>
+                            <span></span>
+                            <span></span> 
                         </div>
                     </div>
                 </div>
@@ -61,13 +58,30 @@
         </div>
     </div>
 
-    <script>
+
+    <div class="burger_dropdown">
+
+    </div>
+
+    <script type="text/javascript">
 		const profile_dropdown_button = document.querySelector('.profile');
 		const profile_dropdown = document.querySelector('.profile_dropdown');
 
 		profile_dropdown_button.addEventListener('click', () => {
 		    profile_dropdown.classList.toggle('active');
 		});
+
+    </script>
+
+    <script type="text/javascript">
+        const burger_button = document.querySelector('.burger');
+        const burger_menu = document.querySelector('.burger_dropdown');
+
+        burger_button.addEventListener('click', () => {
+            burger_button.classList.toggle('active');
+            burger_menu.classList.toggle('active_dropdown');
+        });
+
 
     </script>
 

@@ -21,8 +21,14 @@ body{
 }
 
 .header{
+	position: fixed;
+
 	height: 56px;
-	border-bottom: $gray-400 solid 1px ;
+	border-bottom: $gray-400 solid 1px;
+
+	.container{
+		z-index: 2;
+	}
 
 	.logo{
 		margin-right: 32px;
@@ -272,11 +278,31 @@ body{
 		margin-left: 32px;
 		display: none;
 
-		img{
-			height: 32px;
-			width: 32px;
-		}
-	}
+		flex-direction: column;
+		justify-content: space-between;
+		height: 20px;
+		width: 30px;
+		cursor: pointer;
+
+		span {
+			height: 3px;
+			background-color: $secondary;
+			transition: all 0.2s ease-in-out;
+		  }
+	  }
+	  
+	  .burger.active span:first-child {
+		transform: rotate(45deg) translate(6px, 6px);
+	  }
+	  
+	  .burger.active span:nth-child(2) {
+		opacity: 0;
+	  }
+	  
+	  .burger.active span:last-child {
+		transform: rotate(-45deg) translate(6px, -6px);
+	  }
+	  
 }
 
 footer{
@@ -1540,5 +1566,25 @@ p.text{
 
 		}
 		
+	}
+}
+
+.burger_dropdown{
+	position: absolute;
+	top: -100vh;
+	left: 0;
+
+	display: none;
+
+	height: calc(100vh - 57px);
+	width: 100vw;
+
+	background: rgba($white, 0.9);
+
+	z-index: 1;
+	transition: $naw_transition;
+
+	&.active_dropdown{
+		top: 57px;
 	}
 }
