@@ -1542,3 +1542,39 @@ p.text{
 		
 	}
 }
+
+.container_404{
+	height: calc(100vh - 57px);
+
+	.error_text{
+		p{
+			@include font($f_size:14px);
+			text-align: center;
+
+			&.text_404{
+				margin: 0;
+				margin-top: 27px;
+
+				color: $secondary;
+			}
+		}
+
+		a{
+			text-decoration: none;
+			margin: 0;
+			color: $primary;
+			transition: $naw_transition;
+
+			p{
+				margin: 0;
+				margin-top: 27px;
+				color: $primary;
+			}
+
+			&:hover{
+				text-decoration: underline;
+				color: lighten($primary, 10%);
+			}
+		}
+	}
+}

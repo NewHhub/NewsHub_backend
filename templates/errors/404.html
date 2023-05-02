@@ -1,0 +1,18 @@
+{% extends 'blog/page_layout.html' %}
+{% load static %}
+
+{% block contant %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="container_404 d-flex justify-content-center align-items-center">
+                    <div class="error_text">
+                        <img src="{% static 'img/404.png' %}" alt="">
+                        <p class="text_404">Something went wrong. Try again later.</p>
+                        <a href="{% url 'home' %}" class="btn_404"><p>Go to the home page</p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
