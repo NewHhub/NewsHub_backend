@@ -1,9 +1,9 @@
 from django.urls import path
 
-from api.views import PostListView, PostDetailView
+from api.views import MainPageList, PostDetailView
 
 
 urlpatterns = [
-    path('post_list/', PostListView.as_view()),
+    path('Newsline/', MainPageList.as_view()),
     path('post/<int:pk>/', PostDetailView.as_view()),
 ]
