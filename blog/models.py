@@ -34,7 +34,7 @@ class Reviews(models.Model):
     text = models.TextField("Сообщение", max_length=5000)
     parent = models.ForeignKey('self', related_name='parent_reviews', verbose_name='Родитель', on_delete=models.CASCADE, blank=True, null=True)
     tread = models.ForeignKey('self', related_name='tread_reviews', verbose_name='Тред', on_delete=models.CASCADE, blank=True, null=True)
-    post = models.ForeignKey(Post, verbose_name="Пост", on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, verbose_name="Пост", on_delete=models.CASCADE, related_name='post_by_review')
     date = models.DateTimeField(auto_now_add=True, verbose_name="дата создания", blank=True)
 
     def __str__(self):
