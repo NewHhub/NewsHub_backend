@@ -19,20 +19,28 @@ class PostListSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
+    liked_by_user = serializers.SerializerMethodField()
 
     def get_comments_count(self, post):
-        return post.reviews.count()
-
-    class Meta:
-        model = Post
-        exclude = ('draft',)
+        return post.post_by_review.aggregate(Count('id'))['id__count']
 
     def get_likes_count(self, obj):
         return obj.post_by_likes.aggregate(Count('id'))['id__count']
     
-    def get_comments_count(self, obj):
-        return obj.post_by_review.aggregate(Count('id'))['id__count']
+    def get_liked_by_user(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return obj.post_by_likes.filter(user__id=user.id).exists()
+        return False
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['liked_by_user'] = self.get_liked_by_user(instance)
+        return representation
+
+    class Meta:
+        model = Post
+        exclude = ('draft',)
 
 class PostDetailSerializer(serializers.ModelSerializer):
 

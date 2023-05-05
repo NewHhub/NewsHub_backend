@@ -38,7 +38,7 @@ class MainPageList(PostListView):
             # если человек аноним, выводим все посты всех пользователей (кторые активные)
             post_queryset = Post.objects.filter(draft=False).order_by('-date')
 
-        serializer = PostListSerializer(post_queryset, many=True)
+        serializer = PostListSerializer(post_queryset, many=True, context={'request': request})
         return serializer
 
 
