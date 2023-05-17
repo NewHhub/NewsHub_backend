@@ -18,7 +18,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # адрес SMTP-сервера Gmail
+EMAIL_PORT = 587 # порт SMTP-сервера
+EMAIL_USE_TLS = True # используйте шифрование TLS для безопасной передачи данных
+EMAIL_HOST_USER = 'newshubpostman@gmail.com' # ваш email адрес Gmail
+EMAIL_HOST_PASSWORD = 'tdbtgxnxktlnblou' # ваш пароль от почтового ящика Gmail
 
 
 # Application definition
