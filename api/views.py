@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.serializers import PostListSerializer, PostDetailSerializer
+from api.serializers import PostListSerializer, PostDetailSerializer, ReviewSerializer
 from blog.models import Post
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Count
@@ -61,5 +61,10 @@ class PostDetailView(APIView):
     def get(self, request, pk):
         post = Post.objects.get(id=pk)
         serializer = PostDetailSerializer(post, many=False)
-        return Response(serializer.data)
+        comments = post.post_by_review.all()  # Получение всех комментариев для данного поста
+        comments_serializer = ReviewSerializer(comments, many=True, context={'request': request})  # Подставьте соответствующий сериализатор комментария
+        data = serializer.data
+        data['review'] = comments_serializer.data  # Добавление данных комментариев в сериализованный результат
+
+        return Response(data)
     
