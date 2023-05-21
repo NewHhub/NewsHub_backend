@@ -50,6 +50,13 @@ class HotFeedsList(PostListView):
         return serializer
 
 
+class ExploreFeedsList(PostListView):
+    def get_data(self, request):
+        post_queryset = Post.objects.filter(draft=False).order_by('-date')
+        serializer = PostListSerializer(post_queryset, many=True, context={'request': request})
+        return serializer
+
+
 class PostDetailView(APIView):
     def get(self, request, pk):
         post = Post.objects.get(id=pk)
