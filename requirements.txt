@@ -5,3 +5,4 @@ sqlparse==0.4.3
 gunicorn
 djangorestframework
 django-smtp-ssl
+rest_framework
