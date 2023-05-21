@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from api.serializers import PostListSerializer, PostDetailSerializer
 from blog.models import Post
 from django.contrib.auth.models import AnonymousUser
+from django.db.models import Count
 
 
 class PostListView(APIView):
@@ -38,6 +39,13 @@ class MainPageList(PostListView):
             # если человек аноним, выводим все посты всех пользователей (кторые активные)
             post_queryset = Post.objects.filter(draft=False).order_by('-date')
 
+        serializer = PostListSerializer(post_queryset, many=True, context={'request': request})
+        return serializer
+
+
+class HotFeedsList(PostListView):
+    def get_data(self, request):
+        post_queryset = Post.objects.annotate(num_likes=Count('post_by_likes')).filter(draft=False).order_by('-num_likes', '-date')
         serializer = PostListSerializer(post_queryset, many=True, context={'request': request})
         return serializer
 
