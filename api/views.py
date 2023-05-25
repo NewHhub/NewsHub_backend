@@ -1,8 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import permissions
 
-from api.serializers import PostListSerializer, PostDetailSerializer, ReviewSerializer
-from blog.models import Post
+
+from api.serializers import PostListSerializer, PostDetailSerializer, ReviewPostSerializer, ReviewsSerializer
+from blog.models import Post, Reviews
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Count
 
@@ -62,9 +64,20 @@ class PostDetailView(APIView):
         post = Post.objects.get(id=pk)
         serializer = PostDetailSerializer(post, many=False)
         comments = post.post_by_review.all()  # Получение всех комментариев для данного поста
-        comments_serializer = ReviewSerializer(comments, many=True, context={'request': request})  # Подставьте соответствующий сериализатор комментария
+        comments_serializer = ReviewPostSerializer(comments, many=True, context={'request': request})  # Подставьте соответствующий сериализатор комментария
         data = serializer.data
         data['review'] = comments_serializer.data  # Добавление данных комментариев в сериализованный результат
 
         return Response(data)
     
+
+class ReviewsCreateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def post(self, request):
+        request.data['owner'] = request.user.id
+        serializer = ReviewsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
