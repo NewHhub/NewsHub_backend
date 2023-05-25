@@ -44,7 +44,15 @@ class PostListSerializer(serializers.ModelSerializer):
         exclude = ('draft',)
 
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewsSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Reviews
+        fields = '__all__'
+
+
+class ReviewPostSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     liked_by_user = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
@@ -86,7 +94,7 @@ class PostDetailSerializer(OrderedSerializer):
     date = serializers.DateTimeField()
     tag = TagSerializer(many=True, read_only=True)
     owner = UserSerializer(read_only=True)
-    review = ReviewSerializer(many=True, read_only=True)
+    review = ReviewPostSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
