@@ -22,7 +22,25 @@
                             </div>
                         </div>
                     {% else %}
-                        <div style="height: 65px;"></div>
+                        {% if is_follow == False %}
+                            <div class="d-flex justify-content-end">
+                                <form action="{% url 'follow' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile_user.id }}">
+                                    <button type="submit" class="btn btn-outline-black settings_button"><p>Follow</p></button>
+                                </form>
+                            </div>
+                        {% elif is_follow == True %}
+                            <div class="d-flex justify-content-end">
+                                <form action="{% url 'unfollow' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="follow_by" id="follow_by_user" value="{{ profile_user.id }}">
+                                    <button type="submit" class="btn btn-outline-black settings_button"><p>Unfollow</p></button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <div style="height: 65px;"></div>
+                        {% endif %}
                     {% endif %}
                     <div class="d-flex justify-content-between followers_block">
                         <div class="d-flex followers_naw">
