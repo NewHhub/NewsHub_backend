@@ -4,7 +4,6 @@
 *.pyc
 __pycache__
 
-
 prod_settings.py
 local_settings.py
 gunicorn.conf.py
