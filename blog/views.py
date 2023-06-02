@@ -256,10 +256,12 @@ class Profile(Profile_base):
         context = super().get_data(pk)
 
         notifications_list = Notification.objects.filter(owner__id=pk, is_prived=False, draft=False).order_by('-is_new', '-date')
+        is_follow = Followers.objects.filter(owner=self.request.user, follow_by__id=pk).exists()
 
         context.update({
             'posts_list': self.get_profile_posts(pk),
             'notifications_list': notifications_list,
+            'is_follow': is_follow,
         })
 
         return context
